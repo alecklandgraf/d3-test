@@ -337,11 +337,11 @@ var _scales = {
       });
 
     storage.lineFills.transition().duration(timing)
-      .style('opacity', 1)
+      .style('opacity', 0)
       .attr('d', storage.lineA.y0(storage.lineY));
 
     storage.linePaths.transition().duration(timing)
-      .style('opacity', 1)
+      .style('opacity', 0)
       .attr('d', storage.line.y(storage.lineY));
   }
 
@@ -390,7 +390,7 @@ var _scales = {
       .style('opacity', 0)
       .attr('cx', storage.lineX)
       .attr('cy', storage.lineY)
-      .attr('r', 5)
+      .attr('r', 10)
       .on('mouseover', callbacks.mouseover)
       .on('mouseout', callbacks.mouseout)
       .on('click', callbacks.click);
