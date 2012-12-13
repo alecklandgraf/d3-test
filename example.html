@@ -48,10 +48,17 @@
         ]
       };
 
-      var myChart1 = new xChart('scatter-2D', data, '#example3');
+      var myChart1 = new xChart('scatter-2D', data, '#example1');
 
-      var myChart2 = new xChart('scatter-1D', data, '#example4');
-     
+      $(".toggle").click(function () {
+            if (myChart1._type === 'scatter-1D') {
+              myChart1.setType('scatter-2D');
+            }
+            else {
+              myChart1.setType('scatter-1D');
+            }
+        });
+
 
 
 
@@ -142,8 +149,9 @@
   </head>
   <body>
     <div id="chart">
-      <figure style="width: 500px; height: 300px;" id="example3"></figure>
-      <figure style="width: 500px; height: 300px;" id="example4"></figure>
+      <a class="btn btn-primary widget-edit toggle" href="#"><i class="icon-wrench icon-white"></i> Toggle</a>
+      <figure style="width: 500px; height: 300px;" id="example1"></figure>
+
 
     </div>
   </body>
