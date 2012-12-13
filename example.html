@@ -76,7 +76,7 @@
 
       var line = xChart.getVis('line-dotted');
       var myVis = {
-        enter: function (self, storage, data, className) {
+        enter: function (self, storage, className, data, callbacks) {
           line.enter.apply(this, arguments);
           // Do your custom actions here
           circles = storage.lineContainers.selectAll('circle')
@@ -103,11 +103,11 @@
           line.update.apply(this, arguments);
           // Do your custom actions here
           storage.lineFills.transition().duration(timing)
-            .style('opacity', 1)
+            .style('opacity', 0)
             .attr('d', storage.lineA.y0(storage.lineY));
 
           storage.linePaths.transition().duration(timing)
-            .style('opacity', 1)
+            .style('opacity', 0)
             .attr('d', storage.line.y(storage.lineY));
         },
         exit: function (self, storage, timing) {
