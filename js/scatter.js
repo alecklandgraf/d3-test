@@ -2,7 +2,46 @@
  * scatter xCharts extension 
  * requires: jQuery 1.8+, xCharts
  * see: http://github.com/tenxer/xCharts for details
- * usage: var myChart = new xChart('scatter-1D', data, '#example');
+ * usage: 
+        var data = {
+          "xScale": "linear",
+          "yScale": "linear",
+          "main": [
+            {
+              "className": ".pizza",
+              "data": [
+                {
+                  "x": 4.5,
+                  "y": 1
+                },
+                {
+                  "x": 4.0,
+                  "y": 2
+                },
+                {
+                  "x": 4.65,
+                  "y": 7,
+                  "fill_color": "orange"
+                },
+                {
+                  "x": 4.9,
+                  "y": 10,
+                  "fill_color": "black"
+                },
+                {
+                  "x": 5.0,
+                  "y": 5
+                },
+                {
+                  "x": 4.8,
+                  "y": 20
+                }
+              ]
+            }
+          ]
+        };
+        var myChart = new xChart('scatter-2D', data, '#example');
+
  */
 $(function() {
   var line = xChart.getVis('line-dotted');
@@ -45,8 +84,8 @@ $(function() {
       storage.lineCircles.transition().duration(timing)
         .style('opacity', 1)
         .style('fill', function (d) { 
-          if (d.your_building) {
-            return d.your_building;
+          if (d.fill_color !== undefined) {
+            return d.fill_color;
           }
         })
         .attr('cx', storage.lineX)
@@ -106,8 +145,8 @@ $(function() {
       storage.lineCircles.transition().duration(timing)
         .style('opacity', 1)
         .style('fill', function (d) { 
-          if (d.your_building) {
-            return d.your_building;
+          if (d.fill_color !== undefined) {
+            return d.fill_color;
           }
         })
         .attr('cx', storage.lineX)
