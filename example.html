@@ -47,7 +47,7 @@
                 "y": 0
               },
               {
-                "x": 1.65,
+                "x": 4.65,
                 "y": 0
               },
               {
@@ -59,7 +59,7 @@
                 "y": 0
               },
               {
-                "x": 7.9,
+                "x": 4.8,
                 "y": 0
               }
             ]
@@ -79,10 +79,36 @@
         enter: function (self, storage, data, className) {
           line.enter.apply(this, arguments);
           // Do your custom actions here
+          circles = storage.lineContainers.selectAll('circle')
+          .data(function (d) {
+            return d.data;
+          }, function (d) {
+            return d.x;
+          });
+
+        circles.enter().append('circle')
+          .style('opacity', 0)
+          .attr('cx', storage.lineX)
+          .attr('cy', storage.lineY)
+          .attr('r', 10);
+          // .on('mouseover', callbacks.mouseover)
+          // .on('mouseout', callbacks.mouseout)
+          // .on('click', callbacks.click);
+
+          storage.lineCircles = circles;
+          
+
         },
         update: function (self, storage, timing) {
           line.update.apply(this, arguments);
           // Do your custom actions here
+          storage.lineFills.transition().duration(timing)
+            .style('opacity', 1)
+            .attr('d', storage.lineA.y0(storage.lineY));
+
+          storage.linePaths.transition().duration(timing)
+            .style('opacity', 1)
+            .attr('d', storage.line.y(storage.lineY));
         },
         exit: function (self, storage, timing) {
           line.exit.apply(this, arguments);
@@ -116,7 +142,7 @@
                   [ 220,   88 ]
               ];
       var your_building = [
-                  [ 150,  50, 15 ]
+                  [ 150,  50, 15, "orange" ]
               ];
       var peer_group_average = [
                   [ 150,  150, 15 ]
@@ -149,7 +175,7 @@
          });
       svg.append("circle")
         .data(your_building)
-        .attr("fill", "orange")
+        .attr("fill", function (d) { return d[3]; })
         .attr("cx", function(d) {
               return d[0];
          })
