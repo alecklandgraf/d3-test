@@ -106,10 +106,10 @@ $(function() {
   };
   xChart.setVis('scatter-1D', scatter1DVis);
 
-
+  var line2 = xChart.getVis('line-dotted');
   var scatter2DVis = {
     enter: function (self, storage, className, data, callbacks) {
-      line.enter.apply(this, arguments);
+      line2.enter.apply(this, arguments);
       // Do your custom actions here
       circles = storage.lineContainers.selectAll('circle')
       .data(function (d) {
@@ -132,7 +132,7 @@ $(function() {
 
     },
     update: function (self, storage, timing) {
-      line.update.apply(this, arguments);
+      line2.update.apply(this, arguments);
       // Do your custom actions here
       storage.lineFills.transition().duration(timing)
         .style('opacity', 0)
@@ -157,11 +157,11 @@ $(function() {
 
     },
     exit: function (self, storage, timing) {
-      line.exit.apply(this, arguments);
+      line2.exit.apply(this, arguments);
       // Do your custom actions here
     },
     destroy: function (self, storage, timing) {
-      line.destroy.apply(this, arguments);
+      line2.destroy.apply(this, arguments);
       // Do your custom actions here
     }
   };
