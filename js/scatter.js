@@ -117,4 +117,4 @@ $(function() {
     }
   };
   xChart.setVis('scatter-2D', scatter2DVis);
-})();
+}());
