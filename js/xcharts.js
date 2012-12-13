@@ -273,7 +273,7 @@ var _scales = {
     var inter = self._options.interpolation,
       x = function (d, i) {
         if (!self.xScale2 && !self.xScale.rangeBand) {
-          return self.xScale(new Date(d.x));
+          return self.xScale(d.x);
         }
         return self.xScale(d.x) + (self.xScale.rangeBand() / 2);
       },
