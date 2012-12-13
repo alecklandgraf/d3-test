@@ -176,8 +176,11 @@
                   [ 85,    21 ],
                   [ 220,   88 ]
               ];
-      var dataset2 = [
+      var your_building = [
                   [ 101,  100, 15 ]
+              ];
+      var peer_group_average = [
+                  [ 150,  150, 15 ]
               ];
 
 
@@ -191,6 +194,7 @@
          .data(dataset)
          .enter()
          .append("circle")
+         .attr("fill", "blue")
          .attr("cx", function(d) {
               return d[0];
          })
@@ -204,7 +208,22 @@
             return 5;
          });
       svg.append("circle")
-        .data(dataset2)
+        .data(your_building)
+        .attr("fill", "orange")
+        .attr("cx", function(d) {
+              return d[0];
+         })
+         .attr("cy", function(d) {
+              return d[1];
+         })
+         .attr("r", function(d) {
+            if (d.length > 2 ){
+              return d[2];
+            }
+            return 5;
+         });
+      svg.append("circle")
+        .data(peer_group_average)
         .attr("cx", function(d) {
               return d[0];
          })
