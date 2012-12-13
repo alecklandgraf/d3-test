@@ -63,7 +63,7 @@ $(function() {
   xChart.setVis('scatter-1D', scatter1DVis);
 
 
-  var scatter1DVis = {
+  var scatter2DVis = {
     enter: function (self, storage, className, data, callbacks) {
       line.enter.apply(this, arguments);
       // Do your custom actions here
@@ -101,8 +101,8 @@ $(function() {
       storage.lineCircles.transition().duration(timing)
         .style('opacity', 1)
         .attr('cx', storage.lineX)
-        .attr('cy', function (d) { return self.yScale(0); })
-        // .attr('cy', storage.lineY)
+        // .attr('cy', function (d) { return self.yScale(0); })
+        .attr('cy', storage.lineY)
         .attr('r', 10);
 
 
@@ -116,5 +116,5 @@ $(function() {
       // Do your custom actions here
     }
   };
-  xChart.setVis('scatter-1D', scatter1DVis);
+  xChart.setVis('scatter-2D', scatter2DVis);
 })();
