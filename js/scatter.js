@@ -44,6 +44,11 @@ $(function() {
 
       storage.lineCircles.transition().duration(timing)
         .style('opacity', 1)
+        .style('fill', function (d) { 
+          if (d.your_building) {
+            return d.your_building;
+          }
+        })
         .attr('cx', storage.lineX)
         .attr('cy', function (d) { return self.yScale(0); })
         // .attr('cy', storage.lineY)
@@ -100,10 +105,15 @@ $(function() {
 
       storage.lineCircles.transition().duration(timing)
         .style('opacity', 1)
+        .style('fill', function (d) { 
+          if (d.your_building) {
+            return d.your_building;
+          }
+        })
         .attr('cx', storage.lineX)
         // .attr('cy', function (d) { return self.yScale(0); })
         .attr('cy', storage.lineY)
-        .attr('r', 10);
+        .attr('r', 5);
 
 
     },
