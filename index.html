@@ -15,7 +15,7 @@
     
     <script>
     var data = {};
-    var tease_date = new Date("November 12, 2012 03:15:00");
+    var tease_date = new Date("November 13, 2012 03:15:00");
     $(document).ready(function () {
       // var data = {
       //   "xScale": "time",
@@ -129,7 +129,7 @@ var myChart1 = new xChart('line-dotted', data, '#example1', opts);
 
       $("#add-your-data").live("click", function () {
             tease_date.setDate(tease_date.getDate() + 1);
-            $(".date_input_container span").html(tease_date.getFullYear() + "-" + (tease_date.getMonth()+1) + "-" + tease_date.getDate());
+            $(".date_input_container span").html("date time (" + tease_date.getFullYear() + "-" + (tease_date.getMonth()+1) + "-" + (tease_date.getDate()) + ")");
             var datetime = $(".date_input").val();
             var value = $(".value_input").val();
             var new_data = {
@@ -137,6 +137,49 @@ var myChart1 = new xChart('line-dotted', data, '#example1', opts);
                       "y": parseFloat(value),
                 };
             data.main[0].data.push(new_data);
+            myChart1.setData(data);
+          });
+
+      $("#reset-your-data").live("click", function () {
+            data = {
+              "xScale": "time",
+              "yScale": "linear",
+              "main": [
+                {
+                  "className": ".pizza",
+                  "data": [
+                    {
+                      "x": "2012-11-05",
+                      "y": 6
+                    },
+                    {
+                      "x": "2012-11-06",
+                      "y": 6
+                    },
+                    {
+                      "x": "2012-11-07",
+                      "y": 8
+                    },
+                    {
+                      "x": "2012-11-08",
+                      "y": 3
+                    },
+                    {
+                      "x": "2012-11-09",
+                      "y": 4
+                    },
+                    {
+                      "x": "2012-11-10",
+                      "y": 9
+                    },
+                    {
+                      "x": "2012-11-11",
+                      "y": 6
+                    }
+                  ]
+                }
+              ]
+            };
             myChart1.setData(data);
           });
 
@@ -243,6 +286,8 @@ var myChart1 = new xChart('line-dotted', data, '#example1', opts);
         </div>
         <div class="compare_btn">
              <button class="btn btn-warning" id="add-your-data">Add data</button>
+
+             <button class="btn btn-warning" id="reset-your-data">reset</button>
         </div>
 
     </div>
