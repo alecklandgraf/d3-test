@@ -6,52 +6,115 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
     <link type="text/css" rel="stylesheet" href="css/xcharts.css"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/master.css"/>
     <script type="text/javascript" src="js/d3.v2.js"></script>
     <script type="text/javascript" src="js/xcharts.js"></script>
     <script type="text/javascript" src="js/scatter.js"></script>
     
     <script>
+    var data = {};
     $(document).ready(function () {
-      var data = {
-        "xScale": "linear",
-        "yScale": "linear",
-        "main": [
-          {
-            "className": ".pizza",
-            "data": [
-              {
-                "x": 2012,
-                "y": 1,
-                "number_results": 41,
-              },
-              {
-                "x": 2012,
-                "y": 2
-              },
-              {
-                "x": 2012,
-                "y": 7,
-                "fill_color": "orange"
-              },
-              {
-                "x": 2012,
-                "y": 10,
-                "fill_color": "black"
-              },
-              {
-                "x": 2012,
-                "y": 5
-              },
-              {
-                "x": 2012,
-                "y": 20
-              }
-            ]
-          }
-        ]
-      };
+      // var data = {
+      //   "xScale": "time",
+      //   "yScale": "linear",
+      //   "main": [
+      //     {
+      //       "className": ".pizza",
+      //       "data": [
+      //         {
+      //           "x": 2012,
+      //           "y": 1,
+      //           "number_results": 41,
+      //         },
+      //         {
+      //           "x": 2012,
+      //           "y": 2
+      //         },
+      //         {
+      //           "x": 2012,
+      //           "y": 7,
+      //           "fill_color": "orange"
+      //         },
+      //         {
+      //           "x": 2012,
+      //           "y": 10,
+      //           "fill_color": "black"
+      //         },
+      //         {
+      //           "x": 2012,
+      //           "y": 5
+      //         },
+      //         {
+      //           "x": 2012,
+      //           "y": 20
+      //         }
+      //       ]
+      //     }
+      //   ]
+      // };
+      var tt = document.createElement('div'),
+  leftOffset = -(~~$('html').css('padding-left').replace('px', '') + ~~$('body').css('margin-left').replace('px', '')),
+  topOffset = -32;
+tt.className = 'ex-tooltip';
+document.body.appendChild(tt);
 
-      var myChart1 = new xChart('line-dotted', data, '#example1');
+data = {
+  "xScale": "time",
+  "yScale": "linear",
+  "main": [
+    {
+      "className": ".pizza",
+      "data": [
+        {
+          "x": "2012-11-05",
+          "y": 6
+        },
+        {
+          "x": "2012-11-06",
+          "y": 6
+        },
+        {
+          "x": "2012-11-07",
+          "y": 8
+        },
+        {
+          "x": "2012-11-08",
+          "y": 3
+        },
+        {
+          "x": "2012-11-09",
+          "y": 4
+        },
+        {
+          "x": "2012-11-10",
+          "y": 9
+        },
+        {
+          "x": "2012-11-11",
+          "y": 6
+        }
+      ]
+    }
+  ]
+};
+var opts = {
+  "dataFormatX": function (x) { return d3.time.format('%Y-%m-%d').parse(x); },
+  "tickFormatX": function (x) { return d3.time.format('%A')(x); },
+  "paddingTop": 30,
+  "mouseover": function (d, i) {
+    var pos = $(this).offset();
+    $(tt).text(d3.time.format('%A')(d.x) + ': ' + d.y)
+      .css({top: topOffset + pos.top, left: pos.left + leftOffset})
+      .show();
+  },
+  "mouseout": function (x) {
+    $(tt).hide();
+  }
+};
+var myChart1 = new xChart('line-dotted', data, '#example1', opts);
+
+      // var myChart1 = new xChart('line-dotted', data, '#example1');
 
       $(".toggle").click(function () {
             if (myChart1._type === 'scatter-1D') {
@@ -61,6 +124,17 @@
               myChart1.setType('scatter-1D');
             }
         });
+
+      $("#add-your-data").live("click", function () {
+            var datetime = $(".date_input").val();
+            var value = $(".value_input").val();
+            var new_data = {
+                      "x": datetime.toString(),
+                      "y": parseFloat(value),
+                };
+            data.main[0].data.push(new_data);
+            myChart1.setData(data);
+          });
 
 
 
@@ -152,9 +226,20 @@
   </head>
   <body>
     <div id="chart">
-      <a class="btn btn-primary widget-edit toggle" href="#"><i class="icon-wrench icon-white"></i> Toggle</a>
-      <figure style="width: 500px; height: 300px;" id="example1"></figure>
-
+      <!-- <a class="btn btn-primary widget-edit toggle" href="#"><i class="icon-wrench icon-white"></i> Toggle</a> --> 
+      <div></div>
+      <figure style="width: 80%; height: 300px;" id="example1"></figure>
+      <div>
+          <input type="text"  class="date_input input-mini"> 
+          <span>date time</span>
+        </div>
+        <div>
+            <input type="text"  class="value_input input-mini">  
+            <span>value</span>
+        </div>
+        <div class="compare_btn">
+             <button class="btn btn-warning" id="add-your-data">Add data</button>
+        </div>
 
     </div>
   </body>
