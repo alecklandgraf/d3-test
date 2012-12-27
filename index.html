@@ -144,6 +144,7 @@ var myChart1 = new xChart('line-dotted', data, '#example1', opts);
             data = {
               "xScale": "time",
               "yScale": "linear",
+              "type": "line-dotted",
               "main": [
                 {
                   "className": ".pizza",
@@ -182,6 +183,21 @@ var myChart1 = new xChart('line-dotted', data, '#example1', opts);
             };
             myChart1.setData(data);
           });
+
+          $("#toggle-your-data").live("click", function () {
+            if (myChart1._type === "line-dotted") {
+              data.type = "bar";
+              data.xScale = "ordinal";
+            }
+            else {
+              data.type = "line-dotted";
+              data.xScale = "time";
+            }
+            
+            myChart1.setData(data);
+          });
+          
+        
 
 
 
@@ -288,6 +304,8 @@ var myChart1 = new xChart('line-dotted', data, '#example1', opts);
              <button class="btn btn-warning" id="add-your-data">Add data</button>
 
              <button class="btn btn-warning" id="reset-your-data">reset</button>
+
+             <button class="btn btn-warning" id="toggle-your-data">toggle</button>
         </div>
 
     </div>
