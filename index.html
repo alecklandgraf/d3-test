@@ -7,7 +7,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
     <link type="text/css" rel="stylesheet" href="css/xcharts.css"/>
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
-    <link type="text/css" rel="stylesheet" href="css/master.css"/>
+
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
     <script type="text/javascript" src="js/d3.v2.js"></script>
     <script type="text/javascript" src="js/xcharts.js"></script>
@@ -15,6 +15,7 @@
     
     <script>
     var data = {};
+    var tease_date = new Date("November 12, 2012 03:15:00");
     $(document).ready(function () {
       // var data = {
       //   "xScale": "time",
@@ -127,6 +128,8 @@ var myChart1 = new xChart('line-dotted', data, '#example1', opts);
         });
 
       $("#add-your-data").live("click", function () {
+            tease_date.setDate(tease_date.getDate() + 1);
+            $(".date_input_container span").html(tease_date.getFullYear() + "-" + (tease_date.getMonth()+1) + "-" + tease_date.getDate());
             var datetime = $(".date_input").val();
             var value = $(".value_input").val();
             var new_data = {
@@ -230,12 +233,12 @@ var myChart1 = new xChart('line-dotted', data, '#example1', opts);
       <!-- <a class="btn btn-primary widget-edit toggle" href="#"><i class="icon-wrench icon-white"></i> Toggle</a> --> 
       <div></div>
       <figure style="width: 80%; height: 300px;" id="example1"></figure>
-      <div>
-          <input type="text"  class="date_input"> 
+      <div class="date_input_container">
+          <input type="text"  class="date_input" placeholder="2012-11-13"> 
           <span>date time (2012-11-13)</span>
         </div>
-        <div>
-            <input type="text"  class="value_input">  
+        <div lass="value_input_container">
+            <input type="text"  class="value_input" placeholder="11">  
             <span>value (11)</span>
         </div>
         <div class="compare_btn">
