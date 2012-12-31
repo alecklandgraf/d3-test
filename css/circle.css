@@ -1,0 +1,9 @@
+svg {
+  background: #222;
+  position: absolute;
+}
+
+circle {
+  fill: none;
+  stroke-width: 1.5px;
+}
