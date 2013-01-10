@@ -72,7 +72,7 @@ var bar = svg.selectAll(".bar")
     .data(data)
   .enter().append("g")
     .attr("class", "bar")
-    .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
+    .attr("transform", function(d) { return "translate(" + x(d.x) + "," + (height - margin.bottom) + ")"; });
  
 // bar.append("rect")
 //     .attr("x", 1)
@@ -81,7 +81,7 @@ var bar = svg.selectAll(".bar")
 
 var circle_radius_scale = d3.scale.sqrt()
   .domain([0,50])
-  .range([0, 10]) 
+  .range([0, 8]) 
 
 bar.append("circle")
     .attr("cx", 1)
@@ -90,8 +90,8 @@ bar.append("circle")
 
 bar.append("text")
     .attr("dy", ".75em")
-    .attr("y", 6)
-    .attr("x", x(data[0].dx) / 2)
+    .attr("y", 0)
+    .attr("x", x(data[0].dx) / 2 - 18)
     .attr("text-anchor", "middle")
     .text(function(d) { return formatCount(d.y); });
  
