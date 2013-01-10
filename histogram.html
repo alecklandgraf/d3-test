@@ -10,6 +10,11 @@ body {
   fill: steelblue;
   shape-rendering: crispEdges;
 }
+
+.bar circle {
+  fill: steelblue;
+  shape-rendering: crispEdges;
+}
  
 .bar text {
   fill: #fff;
@@ -69,11 +74,20 @@ var bar = svg.selectAll(".bar")
     .attr("class", "bar")
     .attr("transform", function(d) { return "translate(" + x(d.x) + "," + y(d.y) + ")"; });
  
-bar.append("rect")
-    .attr("x", 1)
-    .attr("width", x(data[0].dx) - 1)
-    .attr("height", function(d) { return height - y(d.y); });
- 
+// bar.append("rect")
+//     .attr("x", 1)
+//     .attr("width", x(data[0].dx) - 1)
+//     .attr("height", function(d) { return height - y(d.y); });
+
+var circle_radius_scale = d3.scale.sqrt()
+  .domain([0,50])
+  .range([0, 10]) 
+
+bar.append("circle")
+    .attr("cx", 1)
+    .attr("cy", 1)
+    .attr("r", function(d) { return circle_radius_scale(height - y(d.y)); });
+
 bar.append("text")
     .attr("dy", ".75em")
     .attr("y", 6)
