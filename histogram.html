@@ -12,12 +12,13 @@ body {
 }
 
 .bar circle {
-  fill: steelblue;
-  shape-rendering: crispEdges;
+  fill: #89bbd8;
+  stroke: #FFF;
+  stroke-width: 3px;
 }
  
 .bar text {
-  fill: #fff;
+  fill: #000;
 }
  
 .axis path, .axis line {
@@ -50,7 +51,7 @@ var x = d3.scale.linear()
  
 // Generate a histogram using twenty uniformly-spaced bins.
 var data = d3.layout.histogram()
-    .bins(x.ticks(20))
+    .bins(x.ticks(15))
     (values);
  
 var y = d3.scale.linear()
@@ -81,7 +82,7 @@ var bar = svg.selectAll(".bar")
 
 var circle_radius_scale = d3.scale.sqrt()
   .domain([0,50])
-  .range([0, 8]) 
+  .range([0, 9]) 
 
 bar.append("circle")
     .attr("cx", 1)
@@ -90,8 +91,8 @@ bar.append("circle")
 
 bar.append("text")
     .attr("dy", ".75em")
-    .attr("y", 0)
-    .attr("x", x(data[0].dx) / 2 - 18)
+    .attr("y", -35)
+    .attr("x", x(data[0].dx) / 2 - 37)
     .attr("text-anchor", "middle")
     .text(function(d) { return formatCount(d.y); });
  
