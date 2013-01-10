@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Histogram</title>
+    <script type="text/javascript" src="js/d3.v2.js"></script>
+    <style type="text/css">
+
+body {
+  font: 10px sans-serif;
+}
+
+circle {
+  fill: steelblue;
+  stroke: white;
+   stroke: #FFF;
+  stroke-width: 3px;
+}
+
+line {
+  stroke: black;
+  shape-rendering: crispEdges;
+}
+
+    </style>
+  </head>
+  <body>
+    <script type="text/javascript">
+
+var n = 10000, // number of trials
+    m = 5,    // number of random variables
+    data = [];
+
+// Generate an Irwin-Hall distribution.
+for (var i = 0; i < n; i++) {
+  for (var s = 0, j = 0; j < m; j++) {
+    s += Math.random();
+  }
+  data.push(s);
+}
+console.log(data);
+
+var w = 700,
+    h = 400;
+
+var xx = d3.scale.linear()
+    .domain([0, 120])
+    .range([0, w]);
+
+var histogram = d3.layout.histogram()
+    // .bins(xx.ticks(35))
+    (data);
+
+var x = d3.scale.ordinal()
+    .domain(histogram.map(function(d) { return d.x; }))
+    .rangeRoundBands([0, 5]);
+
+
+
+var y = d3.scale.linear()
+    .domain([0, d3.max(histogram, function(d) { return d.y; })])
+    .range([0, h]);
+
+var vis = d3.select("body").append("svg:svg")
+    .attr("width", w)
+    .attr("height", h)
+  .append("svg:g")
+    .attr("transform", "translate(.5)");
+
+// vis.selectAll("rect")
+//     .data(histogram)
+//   .enter().append("svg:rect")
+//     .attr("transform", function(d) { return "translate(" + x(d.x) + "," + (h - y(d.y)) + ")"; })
+//     .attr("width", x.rangeBand())
+//     .attr("y", function(d) { return y(d.y); })
+//     .attr("height", 0)
+//   .transition()
+//     .duration(750)
+//     .attr("y", 0)
+//     .attr("height", function(d) { return y(d.y); });
+var circle_radius_scale = d3.scale.sqrt()
+  .domain([0,7])
+  .range([0, 2]) 
+
+vis.selectAll("circle")
+    .data(histogram)
+  .enter().append("svg:circle")
+    // .attr("transform", function(d) { return "translate(" + x(d.x) + "," + (h - y(d.y)) + ")"; })
+    // .attr("width", x.rangeBand())
+    // .attr("y", function(d) { return y(d.y); })
+    // .attr("height", 0)
+    .attr("cx", function(d,i) { return (i * 30) + 20;})
+    .attr("cy", 100)
+    .attr("r", function(d) { return circle_radius_scale(h - y(d.y)); });
+  // .transition()
+  //   .duration(750)
+  //   .attr("y", 0)
+  //   .attr("height", function(d) { return y(d.y); });
+
+vis.append("svg:line")
+    .attr("x1", 0)
+    .attr("x2", w)
+    .attr("y1", h)
+    .attr("y2", h);
+
+    </script>
+  </body>
+</html>
