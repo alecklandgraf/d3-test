@@ -1,8 +1,4 @@
-/**
- * xCharts 0.1.4 Copyright (c) 2012, tenXer, Inc. All Rights Reserved.
- * Available via the MIT license.
- * see: http://github.com/tenxer/xCharts for details
- */
+
  (function () {
 
   var xChart,
@@ -893,36 +889,13 @@ _.defaults(xChart.prototype, {
     vis.update(self, storage, self._options.timing);
   },
 
-  /**
-   * Remove or transition out the elements that no longer have data
-   *
-   * Required method
-   *
-   * Example implementation in vis type:
-   *
-   *    function exit(self) {
-   *      self.bars.exit().remove();
-   *    }
-   */
+
    _exit: function (vis, storage) {
     var self = this;
     self._checkVisMethod(vis, 'exit');
     vis.exit(self, storage, self._options.timing);
   },
 
-  /**
-   * Destroy the current vis type (transition to new type)
-   *
-   * Required method
-   *
-   * Example implementation in vis type:
-   *
-   *    function destroy(self, timing) {
-   *      self.bars.transition().duration(timing)
-   *        attr('height', 0);
-   *      delete self.bars;
-   *    }
-   */
    _destroy: function (vis, storage) {
     var self = this;
     self._checkVisMethod(vis, 'destroy');
@@ -934,9 +907,7 @@ _.defaults(xChart.prototype, {
   _mainStorage: {},
   _compStorage: {},
 
-  /**
-   * Draw the visualization
-   */
+ 
    _draw: function () {
     var self = this,
     o = self._options,
@@ -985,9 +956,6 @@ _.defaults(xChart.prototype, {
     }
   },
 
-  /**
-   * Ensure drawing method exists
-   */
    _checkVisMethod: function (vis, method) {
     var self = this;
     if (!vis[method]) {
