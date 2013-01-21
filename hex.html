@@ -19,7 +19,7 @@
             
             var size        = 600,
                 data        = [],
-                numPoints   = 30000,
+                numPoints   = 5000,
                 hexset, 
                 countMax, 
                 scale,
@@ -110,10 +110,10 @@
                     .attr( "class", "scatterplot" )     
                     .selectAll( "circle" )
                     .data( data )
-                    .enter().append( "svg:circle" )
+                    .enter().append( "circle" )
                         .attr( "cx", function(d) { return d.x; } )
                         .attr( "cy", function(d) { return d.y; } )
-                        .attr( "r", 2 );
+                        .attr( "r", 5 );
             };
             
             function draw_proportional_representation()

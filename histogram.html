@@ -34,7 +34,7 @@ body {
 <script>
  
 // Generate a log-normal distribution with a median of 30 minutes.
-var values = d3.range(1000).map(d3.random.logNormal(Math.log(30), .4));
+var values = d3.range(100).map(d3.random.logNormal(Math.log(30), .4));
  
 // Formatters for counts and times (converting numbers to Dates).
 var formatCount = d3.format(",.0f"),

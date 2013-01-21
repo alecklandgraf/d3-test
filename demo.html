@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+ 
+body {
+  font: 10px sans-serif;
+}
+ 
+.bar rect {
+  fill: steelblue;
+  shape-rendering: crispEdges;
+}
+
+circle {
+  fill: #89bbd8;
+  stroke: #FFF;
+  stroke-width: 3px;
+}
+ 
+.bar text {
+  fill: #000;
+}
+
+#chart {
+  width: 300px;
+  height: 500px;
+
+}
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+ 
+</style>
+<body>
+  <figure id="chart"></firgure>
+</body>
+<script src="js/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/d3.v3/d3.v3.js"></script>
+<script type="text/javascript" src="beChart.js"></script>
+<script>
+$(document).ready(function () {
+
+  var dataset = [
+    [5, 20], [480, 90], [250, 50], [100, 33], [330, 95],
+    [410, 12], [475, 44], [25, 67], [85, 21], [220, 88],
+    [600, 150]
+  ];
+  var myChart = new beChart('scatter', dataset, 'chart');
+  var h;
+});
+</script>
