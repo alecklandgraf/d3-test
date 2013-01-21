@@ -1,6 +1,13 @@
 /*
 BE Chart
 copyright 2013 Building Energy
+
+usage : myChart = new beChart(plot_type, data, selector, options);
+  @param plot_type: string ['scatter', 'histogram', 'circle-histogram', 'line', 'dotted-line']
+  @param data: object or array
+  @param selector: d3 selector (css/jQuery)
+  @param options: object (overrides defaults object)
+
 */
 (function () {
 // skip to beChart for the good parts
@@ -87,7 +94,7 @@ var defaults = {
 };
 
 
-
+// future scale options
 // var _scales = {
 //   linear: linear,
 //   ordinal: ordinal,
@@ -214,6 +221,7 @@ chart.updateRadius = function (r) {
 // private chart functions
 //-----------------------------------------------------------------------------
 chart._drawSVG = function () {
+  // need to grab these from element
   var w = 800;
   var h = 800;
   var padding = 30;
@@ -262,6 +270,11 @@ chart._drawSVG = function () {
       .call(_yAxis);
 };
 
+
+
+//=============================================================================
+// return beChart to the caller
+//-----------------------------------------------------------------------------
 if (typeof define === 'function' && define.amd && typeof define.amd === 'object') {
   define(function () {
     return beChart;
