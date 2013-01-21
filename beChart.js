@@ -117,6 +117,7 @@ var beChart = function (type, data, selector, options) {
   self.version = _version;
   self._container = d3.select(selector);
   self.setData = chart.setData;
+  self.updateTransitionSpeed = chart.updateTransitionSpeed;
 
   // intial plot
   chart._drawSVG(data);
@@ -184,6 +185,9 @@ chart._drawSVG = function () {
       .call(_yAxis);
 };
 
+chart.updateTransitionSpeed = function (timing) {
+  _options.timing = timing;
+};
 
 chart.setData = function (data) {
 
