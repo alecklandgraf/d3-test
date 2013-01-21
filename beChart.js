@@ -170,6 +170,7 @@ chart.setData = function (data) {
                .data(dataset)
                .enter()
                .append("circle")
+               .style('opacity', 0.6)
                .attr("cx", function(d) {
                     return xScale(d[0]);
                })
