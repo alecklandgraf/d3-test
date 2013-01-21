@@ -27,11 +27,18 @@ function override_defaults(options) {
 // private global vars (private to BE Chart, global to functions whithin)
 //-----------------------------------------------------------------------------
 var chart = {},  // object to tie funcs onto
-    _version = "0.1.0",
+    _xAxis,
+    _yAxis,
+    _xScale,
+    _yScale,
+    _svg;
+
+var _version = "0.1.0",
     _authors = ["Aleck Landgraf"],
     _selector,
     _data_length,
-    _options = {};
+    _options = {},
+    _data;
 
 var defaults = {
   // User interaction callbacks
@@ -103,6 +110,7 @@ var beChart = function (type, data, selector, options) {
   // set globals
   _selector = selector;
   _data_length = data.length;
+  _data = data;
 
 
   // set public objects and functions
@@ -111,6 +119,7 @@ var beChart = function (type, data, selector, options) {
   self.setData = chart.setData;
 
   // intial plot
+  chart._drawSVG(data);
   self.setData(data);
 
 
@@ -126,56 +135,71 @@ var beChart = function (type, data, selector, options) {
 };
 
 
+chart._drawSVG = function () {
+  var w = 800;
+  var h = 800;
+  var padding = 30;
+
+  //Create scale functions
+  _xScale = d3.scale.linear()
+                       .domain([0, d3.max(_data, function(d) { return d[0]; })])
+                       .range([padding, w - padding * 2]);
+
+  _yScale = d3.scale.linear()
+                       .domain([0, d3.max(_data, function(d) { return d[1]; })])
+                       .range([h - padding, padding]);
+
+  _rScale = d3.scale.linear()
+                       .domain([0, d3.max(_data, function(d) { return d[1]; })])
+                       .range([2, 5]);
+
+  //Define X axis
+  _xAxis = d3.svg.axis()
+                    .scale(_xScale)
+                    .orient("bottom")
+                    .ticks(5);
+
+  //Define Y axis
+  _yAxis = d3.svg.axis()
+                    .scale(_yScale)
+                    .orient("left")
+                    .ticks(5);
+
+  //Create SVG element
+  _svg = d3.select(_selector)
+              .append("svg")
+              .attr("width", w)
+              .attr("height", h);
+
+    //Create X axis
+  _svg.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(0," + (h - padding) + ")")
+      .call(_xAxis);
+
+  //Create Y axis
+  _svg.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(" + padding + ",0)")
+      .call(_yAxis);
+};
 
 
 chart.setData = function (data) {
-            var w = 1000;
-            var h = 1000;
-            var padding = 30;
-            var dataset = data;
 
-            //Create scale functions
-            var xScale = d3.scale.linear()
-                                 .domain([0, d3.max(dataset, function(d) { return d[0]; })])
-                                 .range([padding, w - padding * 2]);
-
-            var yScale = d3.scale.linear()
-                                 .domain([0, d3.max(dataset, function(d) { return d[1]; })])
-                                 .range([h - padding, padding]);
-
-            var rScale = d3.scale.linear()
-                                 .domain([0, d3.max(dataset, function(d) { return d[1]; })])
-                                 .range([2, 5]);
-
-            //Define X axis
-            var xAxis = d3.svg.axis()
-                              .scale(xScale)
-                              .orient("bottom")
-                              .ticks(5);
-
-            //Define Y axis
-            var yAxis = d3.svg.axis()
-                              .scale(yScale)
-                              .orient("left")
-                              .ticks(5);
-
-            //Create SVG element
-            var svg = d3.select(_selector)
-                        .append("svg")
-                        .attr("width", w)
-                        .attr("height", h);
-
+            _data = data;
+            console.log({data:data});
             //Create circles
-            svg.selectAll("circle")
-               .data(dataset)
+            _svg.selectAll("circle")
+               .data(data)
                .enter()
                .append("circle")
                .style('opacity', 0.6)
                .attr("cx", function(d) {
-                    return xScale(d[0]);
+                    return _xScale(d[0]);
                })
                .attr("cy", function(d) {
-                    return yScale(d[1]);
+                    return _yScale(d[1]);
                })
                .transition()
                .duration(750)
@@ -188,7 +212,7 @@ chart.setData = function (data) {
             /*
             //Create labels
             svg.selectAll("text")
-               .data(dataset)
+               .data(_data)
                .enter()
                .append("text")
                .text(function(d) {
@@ -205,17 +229,7 @@ chart.setData = function (data) {
                .attr("fill", "red");
             */
             
-            //Create X axis
-            svg.append("g")
-                .attr("class", "axis")
-                .attr("transform", "translate(0," + (h - padding) + ")")
-                .call(xAxis);
             
-            //Create Y axis
-            svg.append("g")
-                .attr("class", "axis")
-                .attr("transform", "translate(" + padding + ",0)")
-                .call(yAxis);
   };
 
 

@@ -37,6 +37,9 @@ circle {
  
 </style>
 <body>
+  <div class="compare_btn">
+     <button class="btn btn-warning" id="update_data">Update data</button>
+  </div>
   <figure id="chart"></firgure>
 </body>
 <script src="js/jquery.min.js"></script>
@@ -52,7 +55,7 @@ $(document).ready(function () {
   function generate_data() {
     var data = [];
     random = d3.random.normal();
-    for (var i=0;i<5000;i++) {
+    for (var i=0;i<50;i++) {
       data.push([
         (Math.abs(random()*10)), 
         (Math.abs(random()*10))
@@ -65,6 +68,8 @@ $(document).ready(function () {
   myChart = new beChart('scatter', dataset, '#chart', {timing: 2000});
 
   $("#update_data").live("click", function () {
-    
+    myChart.setData(generate_data());
+  });
+
 });
 </script>
