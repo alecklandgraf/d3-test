@@ -119,6 +119,7 @@ var beChart = function (type, data, selector, options) {
   // set public objects and functions
   self.version = _version;
   self._container = d3.select(selector);
+  self._data = _data; // convience for those who need it
   self.setData = chart.setData;
   self.updateTransitionSpeed = chart.updateTransitionSpeed;
   self.updateRadius = chart.updateRadius;
