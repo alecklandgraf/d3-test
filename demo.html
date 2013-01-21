@@ -76,7 +76,7 @@ $(document).ready(function () {
 
 
   dataset = generate_data(NUMBER_OF_DATA);
-  myChart = new beChart('scatter', dataset, '#chart', {timing: 750});
+  myChart = new beChart('scatter', dataset, '#chart', {timing: 100});
 
   $("#increase_data").live("click", function () {
     NUMBER_OF_DATA *= 2;
