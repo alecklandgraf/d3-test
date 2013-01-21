@@ -5,16 +5,30 @@ copyright 2013 Building Energy
 (function () {
 // skip to beChart for the good parts
 
-
+//=============================================================================
+// private functions
+//-----------------------------------------------------------------------------
 function svgEnabled() {
   var d = document;
   return (!!d.createElementNS &&
     !!d.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
 }
 
-// global vars needed between functions
-var chart = {},  // the chart
+function override_defaults(options) {
+  // this should be add to options
+  for (var o in defaults) {
+    _options[o] = options[o] === undefined ? defaults[o] : options[o];
+  }
+}
+
+
+
+//=============================================================================
+// private global vars (private to BE Chart, global to functions whithin)
+//-----------------------------------------------------------------------------
+var chart = {},  // object to tie funcs onto
     _version = "0.1.0",
+    _authors = ["Aleck Landgraf"],
     _selector,
     _data_length,
     _options = {};
@@ -61,12 +75,7 @@ var defaults = {
   interpolation: 'monotone'
 };
 
-function override_defaults(options) {
-  // this should be add to options
-  for (var o in defaults) {
-    _options[o] = options[o] === undefined ? defaults[o] : options[o];
-  }
-}
+
 
 // var _scales = {
 //   linear: linear,
@@ -75,6 +84,10 @@ function override_defaults(options) {
 //   time: time
 // };
 
+
+//=============================================================================
+// public chart
+//-----------------------------------------------------------------------------
 var beChart = function (type, data, selector, options) {
   var self = this,
     resizeLock;
@@ -165,7 +178,7 @@ chart.setData = function (data) {
                })
                .transition()
                .duration(750)
-               .delay(function (d,i) { return i / _data_length * defaults.timing; })
+               .delay(function (d,i) { return i / _data_length * _options.timing; })
                .attr("r", function(d) {
                     return 8;
                     // return rScale(d[1]);
