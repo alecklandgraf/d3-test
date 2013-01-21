@@ -14,7 +14,7 @@ body {
 circle {
   fill: #89bbd8;
   stroke: #FFF;
-  stroke-width: 3px;
+  stroke-width: 0px;
 }
  
 .bar text {
@@ -42,13 +42,20 @@ circle {
 <script type="text/javascript" src="beChart.js"></script>
 <script>
 $(document).ready(function () {
-
-  dataset = [
-    [5, 20], [480, 90], [250, 50], [100, 33], [330, 95],
-    [410, 12], [475, 44], [25, 67], [85, 21], [220, 88],
-    [600, 150]
-  ];
-  myChart = new beChart('scatter', dataset, '#chart', {timing: 5000});
+  dataset = [];
+  // dataset = [
+  //   [5, 20], [480, 90], [250, 50], [100, 33], [330, 95],
+  //   [410, 12], [475, 44], [25, 67], [85, 21], [220, 88],
+  //   [600, 150]
+  // ];
+  random = d3.random.normal();
+  for (var i=0;i<500;i++) {
+    dataset.push([
+      Math.floor(Math.abs(random()*10)), 
+      Math.floor(Math.abs(random()*10))
+    ]);
+  }
+  myChart = new beChart('scatter', dataset, '#chart', {timing: 1000});
   var h;
 });
 </script>

@@ -129,8 +129,8 @@ var beChart = function (type, data, selector, options) {
 
 
 chart.setData = function (data) {
-            var w = 500;
-            var h = 300;
+            var w = 1000;
+            var h = 1000;
             var padding = 30;
             var dataset = data;
 
@@ -180,7 +180,7 @@ chart.setData = function (data) {
                .duration(750)
                .delay(function (d,i) { return i / _data_length * _options.timing; })
                .attr("r", function(d) {
-                    return 8;
+                    return 6;
                     // return rScale(d[1]);
                });
 
