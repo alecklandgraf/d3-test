@@ -143,15 +143,15 @@ beChart.setData = function (data) {
                .data(dataset)
                .enter()
                .append("circle")
-               .transition()
-               .duration()
-               .delay(function (d,i) { return i / 11 * 750; })
                .attr("cx", function(d) {
                     return xScale(d[0]);
                })
                .attr("cy", function(d) {
                     return yScale(d[1]);
                })
+               .transition()
+               .duration(750)
+               .delay(function (d,i) { return i / 11 * 750; })
                .attr("r", function(d) {
                     return 8;
                     // return rScale(d[1]);
