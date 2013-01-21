@@ -63,7 +63,6 @@ var defaults = {
 function override_defaults(options) {
   // this should be add to options
   defaults.timing = options.timing === undefined ? defaults.timing : options.timing;
-  
 }
 
 // var _scales = {
@@ -78,6 +77,7 @@ var beChart = function (type, data, selector, options) {
     resizeLock;
 
   self._options = options || {};
+  override_defaults(self._options);
   // need to override defaults with options
 
   if (svgEnabled() === false) {
