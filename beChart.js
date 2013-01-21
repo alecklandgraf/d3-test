@@ -13,6 +13,8 @@ function svgEnabled() {
     !!d.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
 }
 
+var _selector;
+
 var defaults = {
   // User interaction callbacks
   mouseover: function (data, i) {},
@@ -72,7 +74,7 @@ var beChart = function (type, data, selector, options) {
     return options.unsupported(selector);
   }
 
-  self._selector = selector;
+  _selector = selector;
   self._container = d3.select(selector);
   // self._drawSvg();
 
@@ -133,7 +135,7 @@ beChart.setData = function (data) {
                               .ticks(5);
 
             //Create SVG element
-            var svg = d3.select("body")
+            var svg = d3.select(_selector)
                         .append("svg")
                         .attr("width", w)
                         .attr("height", h);
