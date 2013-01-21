@@ -133,7 +133,7 @@ var beChart = function (type, data, selector, options) {
       self._resize();
     }, 500);
   });
-};
+};  // end beChart
 
 
 chart._drawSVG = function () {
