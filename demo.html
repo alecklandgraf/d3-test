@@ -45,10 +45,13 @@ circle {
     <button class="btn btn-warning" id="decrease_data">Decrease data</button>
     <button class="btn btn-warning" id="increase_transition">Increase transition</button>
     <button class="btn btn-warning" id="decrease_transition">Decrease transition</button>
+    <button class="btn btn-warning" id="increase_radius">Increase radius</button>
+    <button class="btn btn-warning" id="decrease_radius">Decrease radius</button>
   </div>
   <div class="data_info">
     <div>Number of data: <span class="number_of_data">...</span></div>
     <div>Transition speed(ms): <span class="transition_speed">...</span></div>
+    <div>Circle radius: <span class="circle_radius">...</span></div>
   </div>
   <figure id="chart"></firgure>
 </body>
@@ -63,8 +66,10 @@ $(document).ready(function () {
   dataset = [];
   NUMBER_OF_DATA = 50;
   TRANSITOIN_SPEED = 100;
+  RADIUS = 3;
   $(".number_of_data").html(NUMBER_OF_DATA.toString());
   $(".transition_speed").html(TRANSITOIN_SPEED.toString());
+  $(".circle_radius").html(RADIUS.toString());
 
 
   function generate_data(number) {
@@ -109,6 +114,20 @@ $(document).ready(function () {
     $(".transition_speed").html(TRANSITOIN_SPEED.toString());
     myChart.updateTransitionSpeed(TRANSITOIN_SPEED);
     myChart.setData(generate_data(NUMBER_OF_DATA));
+  });
+  $("#increase_radius").live("click", function () {
+    RADIUS += 1;
+    $(".circle_radius").html(RADIUS.toString());
+    myChart.updateRadius(RADIUS);
+  });
+
+  $("#decrease_radius").live("click", function () {
+    RADIUS -= 1;
+    if (RADIUS < 0) {
+      RADIUS = 0;
+    }
+    $(".circle_radius").html(RADIUS.toString());
+    myChart.updateRadius(RADIUS);
   });
 
 });

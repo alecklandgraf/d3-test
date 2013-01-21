@@ -58,6 +58,9 @@ var defaults = {
   paddingBottom: 20,
   paddingLeft: 60,
 
+  // circle properties
+  circleRadius: 3,
+
   // Axis tick formatting
   tickHintX: 10,
   tickFormatX: function (x) { return x; },
@@ -118,6 +121,7 @@ var beChart = function (type, data, selector, options) {
   self._container = d3.select(selector);
   self.setData = chart.setData;
   self.updateTransitionSpeed = chart.updateTransitionSpeed;
+  self.updateRadius = chart.updateRadius;
 
   // intial plot
   chart._drawSVG(data);
@@ -210,7 +214,7 @@ chart.setData = function (data) {
      .duration(_options.timing)
      .delay(function (d,i) { return i / _data_length * _options.timing; })
      .attr("r", function(d) {
-          return 2;
+          return _options.circleRadius;
           // return rScale(d[1]);
      });
 
@@ -225,12 +229,29 @@ chart.setData = function (data) {
     .transition()
     .duration(_options.timing)
     .delay(function (d,i) { return i / _data_length * _options.timing; })
-    .attr("r", 3);
+    .attr("r", _options.circleRadius);
 
     // exit remove data
     circle.exit().remove();
 }; // end setData
 
+chart.updateRadius = function (r) {
+  _options.circleRadius = r;
+
+  var circle = _svg.selectAll("circle")
+     .data(_data, String);
+  circle
+    .attr("cx", function(d) {
+          return _xScale(d[0]);
+     })
+    .attr("cy", function(d) {
+          return _yScale(d[1]);
+     })
+    .transition()
+    .duration(_options.timing)
+    .delay(function (d,i) { return i / _data_length * _options.timing; })
+    .attr("r", _options.circleRadius);
+};
 
 if (typeof define === 'function' && define.amd && typeof define.amd === 'object') {
   define(function () {
