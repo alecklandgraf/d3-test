@@ -214,7 +214,7 @@ chart.setData = function (data) {
   circle
     .transition()
     .duration(750)
-    // .delay(function (d,i) { return i / _data_length * _options.timing; })
+    .delay(function (d,i) { return i / _data_length * _options.timing; })
     .attr("cx", function(d) {
           return _xScale(d[0]);
      })
@@ -222,6 +222,9 @@ chart.setData = function (data) {
           return _yScale(d[1]);
      })
     .attr("r", 2);
+
+    // exit remove data
+    circle.exit().remove();
 }; // end setData
 
 

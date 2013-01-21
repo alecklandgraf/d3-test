@@ -38,7 +38,11 @@ circle {
 </style>
 <body>
   <div class="compare_btn">
-     <button class="btn btn-warning" id="update_data">Update data</button>
+     <button class="btn btn-warning" id="increase_data">Increase data</button>
+     <button class="btn btn-warning" id="decrease_data">Decrease data</button>
+  </div>
+  <div class="text">
+    Number of data: <span class="number_of_data">...</span>
   </div>
   <figure id="chart"></firgure>
 </body>
@@ -51,11 +55,14 @@ circle {
 $(document).ready(function () {
   // global for debug
   dataset = [];
+  NUMBER_OF_DATA = 50;
+  $(".number_of_data").html(NUMBER_OF_DATA.toString());
 
-  function generate_data() {
+
+  function generate_data(number) {
     var data = [];
     random = d3.random.normal();
-    for (var i=0;i<50;i++) {
+    for (var i = 0; i < number ; i++) {
       data.push([
         (Math.abs(random()*10)), 
         (Math.abs(random()*10))
@@ -64,11 +71,20 @@ $(document).ready(function () {
     return data;
   }
 
-  dataset = generate_data();
+
+  dataset = generate_data(NUMBER_OF_DATA);
   myChart = new beChart('scatter', dataset, '#chart', {timing: 2000});
 
-  $("#update_data").live("click", function () {
-    myChart.setData(generate_data());
+  $("#increase_data").live("click", function () {
+    NUMBER_OF_DATA *= 2;
+    $(".number_of_data").html(NUMBER_OF_DATA.toString());
+    myChart.setData(generate_data(NUMBER_OF_DATA));
+  });
+  $("#decrease_data").live("click", function () {
+    NUMBER_OF_DATA /= 2;
+    NUMBER_OF_DATA = Math.floor(NUMBER_OF_DATA);
+    $(".number_of_data").html(NUMBER_OF_DATA.toString());
+    myChart.setData(generate_data(NUMBER_OF_DATA));
   });
 
 });
