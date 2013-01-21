@@ -45,6 +45,7 @@ var defaults = {
   mouseover: function (data, i) {},
   mouseout: function (data, i) {},
   click: function (data, i) {},
+  drag: function (data, i) {},
 
   // Padding between the axes and the contents of the chart
   axisPaddingTop: 0,
@@ -141,55 +142,9 @@ var beChart = function (type, data, selector, options) {
 };  // end beChart
 
 
-chart._drawSVG = function () {
-  var w = 800;
-  var h = 800;
-  var padding = 30;
-
-  //Create scale functions
-  _xScale = d3.scale.linear()
-                       .domain([0, d3.max(_data, function(d) { return d[0]; })])
-                       .range([padding, w - padding * 2]);
-
-  _yScale = d3.scale.linear()
-                       .domain([0, d3.max(_data, function(d) { return d[1]; })])
-                       .range([h - padding, padding]);
-
-  _rScale = d3.scale.linear()
-                       .domain([0, d3.max(_data, function(d) { return d[1]; })])
-                       .range([2, 5]);
-
-  //Define X axis
-  _xAxis = d3.svg.axis()
-                    .scale(_xScale)
-                    .orient("bottom")
-                    .ticks(5);
-
-  //Define Y axis
-  _yAxis = d3.svg.axis()
-                    .scale(_yScale)
-                    .orient("left")
-                    .ticks(5);
-
-  //Create SVG element
-  _svg = d3.select(_selector)
-              .append("svg")
-              .attr("width", w)
-              .attr("height", h);
-
-    //Create X axis
-  _svg.append("g")
-      .attr("class", "axis")
-      .attr("transform", "translate(0," + (h - padding) + ")")
-      .call(_xAxis);
-
-  //Create Y axis
-  _svg.append("g")
-      .attr("class", "axis")
-      .attr("transform", "translate(" + padding + ",0)")
-      .call(_yAxis);
-};
-
+//=============================================================================
+// public chart functions
+//-----------------------------------------------------------------------------
 chart.updateTransitionSpeed = function (timing) {
   _options.timing = timing;
 };
@@ -252,6 +207,59 @@ chart.updateRadius = function (r) {
     .duration(_options.timing)
     .delay(function (d,i) { return i / _data_length * _options.timing; })
     .attr("r", _options.circleRadius);
+};
+
+
+//=============================================================================
+// private chart functions
+//-----------------------------------------------------------------------------
+chart._drawSVG = function () {
+  var w = 800;
+  var h = 800;
+  var padding = 30;
+
+  //Create scale functions
+  _xScale = d3.scale.linear()
+                       .domain([0, d3.max(_data, function(d) { return d[0]; })])
+                       .range([padding, w - padding * 2]);
+
+  _yScale = d3.scale.linear()
+                       .domain([0, d3.max(_data, function(d) { return d[1]; })])
+                       .range([h - padding, padding]);
+
+  _rScale = d3.scale.linear()
+                       .domain([0, d3.max(_data, function(d) { return d[1]; })])
+                       .range([2, 5]);
+
+  //Define X axis
+  _xAxis = d3.svg.axis()
+                    .scale(_xScale)
+                    .orient("bottom")
+                    .ticks(5);
+
+  //Define Y axis
+  _yAxis = d3.svg.axis()
+                    .scale(_yScale)
+                    .orient("left")
+                    .ticks(5);
+
+  //Create SVG element
+  _svg = d3.select(_selector)
+              .append("svg")
+              .attr("width", w)
+              .attr("height", h);
+
+    //Create X axis
+  _svg.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(0," + (h - padding) + ")")
+      .call(_xAxis);
+
+  //Create Y axis
+  _svg.append("g")
+      .attr("class", "axis")
+      .attr("transform", "translate(" + padding + ",0)")
+      .call(_yAxis);
 };
 
 if (typeof define === 'function' && define.amd && typeof define.amd === 'object') {
