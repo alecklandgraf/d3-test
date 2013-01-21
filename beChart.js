@@ -6,6 +6,7 @@ copyright 2013 Building Energy
 // skip to beChart for the good parts
 
 var _version = "0.1.0";
+var chart = {};
 
 function svgEnabled() {
   var d = document;
@@ -13,7 +14,9 @@ function svgEnabled() {
     !!d.createElementNS('http://www.w3.org/2000/svg', 'svg').createSVGRect);
 }
 
-var _selector;
+// global vars needed between functions
+var _selector,
+    _data_length;
 
 var defaults = {
   // User interaction callbacks
@@ -57,6 +60,12 @@ var defaults = {
   interpolation: 'monotone'
 };
 
+function override_defaults(options) {
+  // this should be add to options
+  defaults.timing = options.timing === undefined ? defaults.timing : options.timing;
+  
+}
+
 // var _scales = {
 //   linear: linear,
 //   ordinal: ordinal,
@@ -69,21 +78,25 @@ var beChart = function (type, data, selector, options) {
     resizeLock;
 
   self._options = options || {};
+  // need to override defaults with options
 
   if (svgEnabled() === false) {
     return options.unsupported(selector);
   }
 
+  // set globals
   _selector = selector;
+  _data_length = data.length;
+
+
+  // set public objects and functions
+  self.version = _version;
   self._container = d3.select(selector);
-  // self._drawSvg();
+  self.setData = chart.setData;
 
-  // data = _.clone(data);
-  // if (type && !data.type) {
-  //   data.type = type;
-  // }
+  // intial plot
+  self.setData(data);
 
-  beChart.setData(data);
 
   d3.select(window).on('resize.for.' + selector, function () {
     if (resizeLock) {
@@ -99,11 +112,7 @@ var beChart = function (type, data, selector, options) {
 
 
 
-
-
-beChart.version = _version;
-
-beChart.setData = function (data) {
+chart.setData = function (data) {
             var w = 500;
             var h = 300;
             var padding = 30;
@@ -153,7 +162,7 @@ beChart.setData = function (data) {
                })
                .transition()
                .duration(750)
-               .delay(function (d,i) { return i / 11 * 750; })
+               .delay(function (d,i) { return i / _data_length * defaults.timing; })
                .attr("r", function(d) {
                     return 8;
                     // return rScale(d[1]);
