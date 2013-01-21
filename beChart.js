@@ -180,7 +180,7 @@ chart.setData = function (data) {
                .duration(750)
                .delay(function (d,i) { return i / _data_length * _options.timing; })
                .attr("r", function(d) {
-                    return 6;
+                    return 2;
                     // return rScale(d[1]);
                });
 

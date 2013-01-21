@@ -49,13 +49,13 @@ $(document).ready(function () {
   //   [600, 150]
   // ];
   random = d3.random.normal();
-  for (var i=0;i<500;i++) {
+  for (var i=0;i<5000;i++) {
     dataset.push([
-      Math.floor(Math.abs(random()*10)), 
-      Math.floor(Math.abs(random()*10))
+      (Math.abs(random()*10)), 
+      (Math.abs(random()*10))
     ]);
   }
-  myChart = new beChart('scatter', dataset, '#chart', {timing: 1000});
+  myChart = new beChart('scatter', dataset, '#chart', {timing: 2000});
   var h;
 });
 </script>
