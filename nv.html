@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+<style>
+
+#chart svg {
+  height: 400px;
+}
+
+</style>
+<body>
+
+    <meta charset="utf-8">
+    <title></title>
+    <script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/d3.v3/d3.v3.js"></script>
+<script src="js/nv.d3.js" type="text/javascript" charset="utf-8" async defer></script>
+<script>
+$(document).ready(function () {
+     nv.addGraph(function() {
+      var chart = nv.models.scatterChart()
+                    .showDistX(true)
+                    .showDistY(true)
+                    .color(d3.scale.category10().range());
+
+      chart.xAxis.tickFormat(d3.format('.02f'))
+      chart.yAxis.tickFormat(d3.format('.02f'))
+
+      d3.select('#chart svg')
+          .datum(randomData(4,40))
+        .transition().duration(500)
+          .call(chart);
+
+      nv.utils.windowResize(chart.update);
+
+      return chart;
+    });
+
+
+
+
+    /**************************************
+     * Simple test data generator
+     */
+
+    function randomData(groups, points) { //# groups,# points per group
+      var data = [],
+          shapes = ['circle', 'cross', 'triangle-up', 'triangle-down', 'diamond', 'square'],
+          random = d3.random.normal();
+
+      for (i = 0; i < groups; i++) {
+        data.push({
+          key: 'Group ' + i,
+          values: []
+        });
+
+        for (j = 0; j < points; j++) {
+          data[i].values.push({
+            x: random()
+          , y: random()
+          , size: Math.random()
+          //, shape: shapes[j % 6]
+          });
+        }
+      }
+
+      return data;
+    }
+});
+</script>
+
+
+
+    
+
+    <div id="chart">
+      <svg></svg>
+    </div>
+</body>
+
+
+
