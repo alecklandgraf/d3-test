@@ -187,50 +187,42 @@ chart._drawSVG = function () {
 
 chart.setData = function (data) {
 
-            _data = data;
-            console.log({data:data});
-            //Create circles
-            _svg.selectAll("circle")
-               .data(data)
-               .enter()
-               .append("circle")
-               .style('opacity', 0.6)
-               .attr("cx", function(d) {
-                    return _xScale(d[0]);
-               })
-               .attr("cy", function(d) {
-                    return _yScale(d[1]);
-               })
-               .transition()
-               .duration(750)
-               .delay(function (d,i) { return i / _data_length * _options.timing; })
-               .attr("r", function(d) {
-                    return 2;
-                    // return rScale(d[1]);
-               });
+  _data = data;
 
-            /*
-            //Create labels
-            svg.selectAll("text")
-               .data(_data)
-               .enter()
-               .append("text")
-               .text(function(d) {
-                    return d[0] + "," + d[1];
-               })
-               .attr("x", function(d) {
-                    return xScale(d[0]);
-               })
-               .attr("y", function(d) {
-                    return yScale(d[1]);
-               })
-               .attr("font-family", "sans-serif")
-               .attr("font-size", "11px")
-               .attr("fill", "red");
-            */
-            
-            
-  };
+  // bind circle to data
+  var circle = _svg.selectAll("circle")
+     .data(data);
+
+  // enter new circles
+  circle.enter().append("circle")
+     .style('opacity', 0.6)
+     .attr("cx", function(d) {
+          return _xScale(d[0]);
+     })
+     .attr("cy", function(d) {
+          return _yScale(d[1]);
+     })
+     .transition()
+     .duration(750)
+     .delay(function (d,i) { return i / _data_length * _options.timing; })
+     .attr("r", function(d) {
+          return 2;
+          // return rScale(d[1]);
+     });
+
+  // update current circles
+  circle
+    .transition()
+    .duration(750)
+    // .delay(function (d,i) { return i / _data_length * _options.timing; })
+    .attr("cx", function(d) {
+          return _xScale(d[0]);
+     })
+    .attr("cy", function(d) {
+          return _yScale(d[1]);
+     })
+    .attr("r", 2);
+}; // end setData
 
 
 if (typeof define === 'function' && define.amd && typeof define.amd === 'object') {
