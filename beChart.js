@@ -191,11 +191,11 @@ chart.setData = function (data) {
 
   // bind circle to data
   var circle = _svg.selectAll("circle")
-     .data(data);
+     .data(data, String);
 
   // enter new circles
   circle.enter().append("circle")
-     .style('opacity', 0.6)
+     .style('opacity', 0.8)
      .attr("cx", function(d) {
           return _xScale(d[0]);
      })
@@ -212,16 +212,16 @@ chart.setData = function (data) {
 
   // update current circles
   circle
-    .transition()
-    .duration(750)
-    .delay(function (d,i) { return i / _data_length * _options.timing; })
     .attr("cx", function(d) {
           return _xScale(d[0]);
      })
     .attr("cy", function(d) {
           return _yScale(d[1]);
      })
-    .attr("r", 2);
+    .transition()
+    .duration(750)
+    .delay(function (d,i) { return i / _data_length * _options.timing; })
+    .attr("r", 3);
 
     // exit remove data
     circle.exit().remove();
