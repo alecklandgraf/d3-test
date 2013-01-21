@@ -203,7 +203,7 @@ chart.setData = function (data) {
           return _yScale(d[1]);
      })
      .transition()
-     .duration(750)
+     .duration(_options.timing)
      .delay(function (d,i) { return i / _data_length * _options.timing; })
      .attr("r", function(d) {
           return 2;
@@ -219,7 +219,7 @@ chart.setData = function (data) {
           return _yScale(d[1]);
      })
     .transition()
-    .duration(750)
+    .duration(_options.timing)
     .delay(function (d,i) { return i / _data_length * _options.timing; })
     .attr("r", 3);
 
