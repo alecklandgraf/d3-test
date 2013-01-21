@@ -5,8 +5,6 @@ copyright 2013 Building Energy
 (function () {
 // skip to beChart for the good parts
 
-var _version = "0.1.0";
-var chart = {};
 
 function svgEnabled() {
   var d = document;
@@ -15,8 +13,11 @@ function svgEnabled() {
 }
 
 // global vars needed between functions
-var _selector,
-    _data_length;
+var chart = {},  // the chart
+    _version = "0.1.0",
+    _selector,
+    _data_length,
+    _options = {};
 
 var defaults = {
   // User interaction callbacks
@@ -62,7 +63,9 @@ var defaults = {
 
 function override_defaults(options) {
   // this should be add to options
-  defaults.timing = options.timing === undefined ? defaults.timing : options.timing;
+  for (var o in defaults) {
+    _options[o] = options[o] === undefined ? defaults[o] : options[o];
+  }
 }
 
 // var _scales = {
