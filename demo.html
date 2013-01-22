@@ -40,16 +40,29 @@ circle {
  
 </style>
 <body>
+  <div>
+    <select class="pick_data">
+              <option value="dataset100" selected>100 points</option>
+              <option value="dataset500" >500 points</option>
+              <option value="dataset1000" >1,000 points</option>
+              <option value="dataset3000" >3,000 points</option>
+              <option value="dataset5000" >5,000 points</option>
+              <option value="dataset8000" >8,000 points</option>
+              <option value="dataset10000" >10,000 points</option>
+              <option value="dataset20000" >20,000 points</option>
+              <option value="dataset30000" >30,000 points</option>
+              <option value="dataset40000" >40,000 points</option>
+              <option value="dataset50000" >50,000 points</option>
+              <option value="dataset60000" >60,000 points</option>
+            </select>
+  </div>
   <div class="compare_btn">
-    <button class="btn btn-warning" id="increase_data">Increase data</button>
-    <button class="btn btn-warning" id="decrease_data">Decrease data</button>
-    <button class="btn btn-warning" id="increase_transition">Increase transition</button>
-    <button class="btn btn-warning" id="decrease_transition">Decrease transition</button>
-    <button class="btn btn-warning" id="increase_radius">Increase radius</button>
-    <button class="btn btn-warning" id="decrease_radius">Decrease radius</button>
+    <button class="btn btn-primary" id="increase_transition">Increase transition</button>
+    <button class="btn btn-primary" id="decrease_transition">Decrease transition</button>
+    <button class="btn btn-primary" id="increase_radius">Increase radius</button>
+    <button class="btn btn-primary" id="decrease_radius">Decrease radius</button>
   </div>
   <div class="data_info">
-    <div>Number of data: <span class="number_of_data">...</span></div>
     <div>Transition speed(ms): <span class="transition_speed">...</span></div>
     <div>Circle radius: <span class="circle_radius">...</span></div>
   </div>
@@ -64,10 +77,9 @@ circle {
 $(document).ready(function () {
   // global for debug
   dataset = [];
-  NUMBER_OF_DATA = 50;
+  CURRENT_DATA_SET = [];
   TRANSITOIN_SPEED = 100;
   RADIUS = 3;
-  $(".number_of_data").html(NUMBER_OF_DATA.toString());
   $(".transition_speed").html(TRANSITOIN_SPEED.toString());
   $(".circle_radius").html(RADIUS.toString());
 
@@ -84,28 +96,40 @@ $(document).ready(function () {
     return data;
   }
 
+  // pre load datasets
+  dataset = {
+    100: generate_data(100),
+    500: generate_data(500),
+    1000: generate_data(1000),
+    3000: generate_data(3000),
+    5000: generate_data(5000),
+    8000: generate_data(8000),
+    10000: generate_data(10000),
+    15000: generate_data(15000),
+    20000: generate_data(20000),
+    30000: generate_data(30000),
+    40000: generate_data(40000),
+    50000: generate_data(50000),
+    60000: generate_data(60000)
+  };
 
-  dataset = generate_data(NUMBER_OF_DATA);
-  myChart = new beChart('scatter', dataset, '#chart', {timing: TRANSITOIN_SPEED});
+  CURRENT_DATA_SET = dataset[100];
 
-  $("#increase_data").live("click", function () {
-    NUMBER_OF_DATA *= 2;
-    $(".number_of_data").html(NUMBER_OF_DATA.toString());
-    myChart.setData(generate_data(NUMBER_OF_DATA));
-  });
 
-  $("#decrease_data").live("click", function () {
-    NUMBER_OF_DATA /= 2;
-    NUMBER_OF_DATA = Math.floor(NUMBER_OF_DATA);
-    $(".number_of_data").html(NUMBER_OF_DATA.toString());
-    myChart.setData(generate_data(NUMBER_OF_DATA));
+
+
+  myChart = new beChart('scatter', CURRENT_DATA_SET, '#chart', {timing: TRANSITOIN_SPEED});
+
+  $(".pick_data").change(function () {
+
+    myChart.setData(CURRENT_DATA_SET);
   });
 
   $("#increase_transition").live("click", function () {
     TRANSITOIN_SPEED *= 2;
     $(".transition_speed").html(TRANSITOIN_SPEED.toString());
     myChart.updateTransitionSpeed(TRANSITOIN_SPEED);
-    myChart.setData(generate_data(NUMBER_OF_DATA));
+    myChart.setData(CURRENT_DATA_SET);
   });
 
   $("#decrease_transition").live("click", function () {
@@ -113,7 +137,7 @@ $(document).ready(function () {
     TRANSITOIN_SPEED = Math.floor(TRANSITOIN_SPEED);
     $(".transition_speed").html(TRANSITOIN_SPEED.toString());
     myChart.updateTransitionSpeed(TRANSITOIN_SPEED);
-    myChart.setData(generate_data(NUMBER_OF_DATA));
+    myChart.setData(CURRENT_DATA_SET);
   });
   $("#increase_radius").live("click", function () {
     RADIUS += 1;
