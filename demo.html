@@ -83,8 +83,8 @@ $(document).ready(function () {
   // global for debug
   dataset = [];
   CURRENT_DATA_SET = [];
-  TRANSITOIN_SPEED = 100;
-  RADIUS = 3;
+  TRANSITOIN_SPEED = 1;
+  RADIUS = 1;
   $(".transition_speed").html(TRANSITOIN_SPEED.toString());
   $(".circle_radius").html(RADIUS.toString());
 
@@ -103,7 +103,7 @@ $(document).ready(function () {
 
   // pre load datasets
   dataset = {
-    100: generate_data(100),
+    100: generate_data(1),
     500: generate_data(500),
     1000: generate_data(1000),
     3000: generate_data(3000),
@@ -120,10 +120,15 @@ $(document).ready(function () {
 
   CURRENT_DATA_SET = dataset[100];
 
+  append_dataset = [[]];
+  for (var j=0; j< 30; j++) {
+    append_dataset.push(generate_data(1000));
+  }
+  append_dataset.shift();
 
 
 
-  myChart = new beChart('scatter', CURRENT_DATA_SET, '#chart', {timing: TRANSITOIN_SPEED});
+  myChart = new beChart('scatter', CURRENT_DATA_SET, '#chart', {timing: TRANSITOIN_SPEED, circleRadius: RADIUS, xMax: 50, yMax: 50});
 
   $(".pick_data").change(function () {
     var selected_data = $(".pick_data").val();
@@ -161,8 +166,9 @@ $(document).ready(function () {
     myChart.updateRadius(RADIUS);
   });
 
-  $("#append_data").live("click", function () {   
-    myChart.appendData(dataset[1000], "avg");
+  $("#append_data").live("click", function () {
+
+    myChart.appendDatasets(append_dataset, "avg");
 
   });
 

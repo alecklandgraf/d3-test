@@ -28,7 +28,13 @@ function override_defaults(options) {
   }
 }
 
-
+function endall(transition, callback) {
+    var n = 0;
+    console.log({callback:callback});
+    transition
+        .each(function() { ++n; })
+        .each("end", function() { if (!--n) callback.apply(this, arguments); });
+}
 
 //=============================================================================
 // private global vars (private to BE Chart, global to functions whithin)
@@ -75,6 +81,9 @@ var defaults = {
   tickFormatX: function (x) { return x; },
   tickHintY: 10,
   tickFormatY: function (y) { return y; },
+  xMax: undefined,
+  yMax: undefined,
+
 
   // Pre-format input data
   dataFormatX: function (x) { return x; },
@@ -133,6 +142,7 @@ var beChart = function (type, data, selector, options) {
   self.updateTransitionSpeed = chart.updateTransitionSpeed;
   self.updateRadius = chart.updateRadius;
   self.appendData = chart.appendData;
+  self.appendDatasets = chart.appendDatasets;
 
   // intial plot
   chart._drawSVG(data);
@@ -221,6 +231,30 @@ chart.appendData = function (data, data_class) {
       .attr("r", _options.circleRadius);
 
 };
+nn=0;
+chart.appendDatasets = function (data_array) {
+  if(data_array.length > 0) {
+
+    console.log(++nn);
+    var current_data_set = data_array.pop();
+    console.log(current_data_set);
+    var circle = _svg.selectAll("circle")
+    .data(current_data_set, String);
+
+
+    circle.enter().append("circle")
+        .attr("cx", function(d) {
+            return _xScale(d[0]);
+        })
+        .attr("cy", function(d) {
+            return _yScale(d[1]);
+        })
+        .transition().call(endall, function() {console.log("done");chart.appendDatasets(data_array);})
+        .duration(_options.timing)
+        .delay(function (d,i) { return i / _data_length * _options.timing; })
+        .attr("r", _options.circleRadius);
+    }
+};
 
 chart.updateRadius = function (r) {
   _options.circleRadius = r;
@@ -249,14 +283,18 @@ chart._drawSVG = function () {
   var w = 800;
   var h = 800;
   var padding = 30;
+  var xMax = _options.xMax === undefined ? d3.max(_data, function(d) { return d[0]; }) : _options.xMax;
+  var yMax = _options.yMax === undefined ? d3.max(_data, function(d) { return d[1]; }) : _options.yMax;
 
   //Create scale functions
   _xScale = d3.scale.linear()
-                       .domain([0, d3.max(_data, function(d) { return d[0]; })])
+                       // .domain([0, d3.max(_data, function(d) { return d[0]; })])
+                       .domain([0, xMax])
                        .range([padding, w - padding * 2]);
 
   _yScale = d3.scale.linear()
-                       .domain([0, d3.max(_data, function(d) { return d[1]; })])
+                       .domain([0, yMax])
+                       // .domain([0, d3.max(_data, function(d) { return d[1]; })])
                        .range([h - padding, padding]);
 
   _rScale = d3.scale.linear()
