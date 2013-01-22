@@ -128,6 +128,9 @@ $(document).ready(function () {
 
   $("#increase_transition").live("click", function () {
     TRANSITOIN_SPEED *= 2;
+    if (TRANSITOIN_SPEED === 0) {
+      TRANSITOIN_SPEED = 1;
+    }
     $(".transition_speed").html(TRANSITOIN_SPEED.toString());
     myChart.updateTransitionSpeed(TRANSITOIN_SPEED);
   });
