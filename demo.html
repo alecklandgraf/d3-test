@@ -42,18 +42,18 @@ circle {
 <body>
   <div>
     <select class="pick_data">
-              <option value="dataset100" selected>100 points</option>
-              <option value="dataset500" >500 points</option>
-              <option value="dataset1000" >1,000 points</option>
-              <option value="dataset3000" >3,000 points</option>
-              <option value="dataset5000" >5,000 points</option>
-              <option value="dataset8000" >8,000 points</option>
-              <option value="dataset10000" >10,000 points</option>
-              <option value="dataset20000" >20,000 points</option>
-              <option value="dataset30000" >30,000 points</option>
-              <option value="dataset40000" >40,000 points</option>
-              <option value="dataset50000" >50,000 points</option>
-              <option value="dataset60000" >60,000 points</option>
+              <option value="100" selected>100 points</option>
+              <option value="500" >500 points</option>
+              <option value="1000" >1,000 points</option>
+              <option value="3000" >3,000 points</option>
+              <option value="5000" >5,000 points</option>
+              <option value="8000" >8,000 points</option>
+              <option value="10000" >10,000 points</option>
+              <option value="20000" >20,000 points</option>
+              <option value="30000" >30,000 points</option>
+              <option value="40000" >40,000 points</option>
+              <option value="50000" >50,000 points</option>
+              <option value="60000" >60,000 points</option>
             </select>
   </div>
   <div class="compare_btn">
@@ -121,7 +121,8 @@ $(document).ready(function () {
   myChart = new beChart('scatter', CURRENT_DATA_SET, '#chart', {timing: TRANSITOIN_SPEED});
 
   $(".pick_data").change(function () {
-
+    var selected_data = $(".pick_data").val();
+    CURRENT_DATA_SET = dataset[parseInt(selected_data, 10)];
     myChart.setData(CURRENT_DATA_SET);
   });
 
