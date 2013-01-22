@@ -22,6 +22,10 @@ circle {
   stroke: #FFF;
   stroke-width: 0px;
 }
+
+.avg {
+  fill: orange;
+}
  
 .bar text {
   fill: #000;
@@ -61,6 +65,7 @@ circle {
     <button class="btn btn-primary" id="decrease_transition">Decrease transition</button>
     <button class="btn btn-primary" id="increase_radius">Increase radius</button>
     <button class="btn btn-primary" id="decrease_radius">Decrease radius</button>
+    <button class="btn btn-primary" id="append_data">Append Data Test</button>
   </div>
   <div class="data_info">
     <div>Transition speed(ms): <span class="transition_speed">...</span></div>
@@ -154,6 +159,11 @@ $(document).ready(function () {
     }
     $(".circle_radius").html(RADIUS.toString());
     myChart.updateRadius(RADIUS);
+  });
+
+  $("#append_data").live("click", function () {   
+    myChart.appendData(dataset[1000], "avg");
+
   });
 
 });

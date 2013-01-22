@@ -45,6 +45,7 @@ var _version = "0.1.0",
     _selector,
     _data_length,
     _options = {},
+    _datasets = {},
     _data;
 
 var defaults = {
@@ -131,6 +132,7 @@ var beChart = function (type, data, selector, options) {
   self.setData = chart.setData;
   self.updateTransitionSpeed = chart.updateTransitionSpeed;
   self.updateRadius = chart.updateRadius;
+  self.appendData = chart.appendData;
 
   // intial plot
   chart._drawSVG(data);
@@ -197,6 +199,28 @@ chart.setData = function (data) {
     // exit remove data
     circle.exit().remove();
 }; // end setData
+
+
+chart.appendData = function (data, data_class) {
+  data_class = data_class === undefined ? 'main' : data_class;
+  // _data = _data.concat(data);
+  var circle = _svg.selectAll("circle")
+    .data(data, String);
+
+  circle.enter().append("circle")
+      .attr("class", data_class)
+      .attr("cx", function(d) {
+          return _xScale(d[0]);
+      })
+      .attr("cy", function(d) {
+          return _yScale(d[1]);
+      })
+      .transition()
+      .duration(_options.timing)
+      .delay(function (d,i) { return i / _data_length * _options.timing; })
+      .attr("r", _options.circleRadius);
+
+};
 
 chart.updateRadius = function (r) {
   _options.circleRadius = r;
