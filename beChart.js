@@ -202,13 +202,13 @@ chart.setData = function (data) {
 
 
 chart.appendData = function (data, data_class) {
-  data_class = data_class === undefined ? 'main' : data_class;
-  // _data = _data.concat(data);
+  // data_class = data_class === undefined ? 'main' : data_class;
+  _data = _data.concat(data);
   var circle = _svg.selectAll("circle")
-    .data(data, String);
+    .data(_data, String);
 
   circle.enter().append("circle")
-      .attr("class", data_class)
+      // .attr("class", data_class)  // need to tie this to the data since it'll not remember its class
       .attr("cx", function(d) {
           return _xScale(d[0]);
       })
