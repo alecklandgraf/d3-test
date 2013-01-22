@@ -70,6 +70,7 @@ circle {
   <div class="data_info">
     <div>Transition speed(ms): <span class="transition_speed">...</span></div>
     <div>Circle radius: <span class="circle_radius">...</span></div>
+    <div>Appended points: <span class="appended_points">...</span></div>
   </div>
   <figure id="chart"></firgure>
 </body>
@@ -147,7 +148,7 @@ $(document).ready(function () {
 
   $("#decrease_transition").live("click", function () {
     TRANSITOIN_SPEED /= 2;
-    TRANSITOIN_SPEED = Math.floor(TRANSITOIN_SPEED);
+    // TRANSITOIN_SPEED = Math.floor(TRANSITOIN_SPEED);
     $(".transition_speed").html(TRANSITOIN_SPEED.toString());
     myChart.updateTransitionSpeed(TRANSITOIN_SPEED);
   });

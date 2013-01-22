@@ -30,7 +30,6 @@ function override_defaults(options) {
 
 function endall(transition, callback) {
     var n = 0;
-    console.log({callback:callback});
     transition
         .each(function() { ++n; })
         .each("end", function() { if (!--n) callback.apply(this, arguments); });
@@ -231,13 +230,15 @@ chart.appendData = function (data, data_class) {
       .attr("r", _options.circleRadius);
 
 };
+
+// for debug
 nn=0;
+// end debug
+
 chart.appendDatasets = function (data_array) {
   if(data_array.length > 0) {
-
-    console.log(++nn);
+    nn += 1;
     var current_data_set = data_array.pop();
-    console.log(current_data_set);
     var circle = _svg.selectAll("circle")
     .data(current_data_set, String);
 
@@ -249,7 +250,7 @@ chart.appendDatasets = function (data_array) {
         .attr("cy", function(d) {
             return _yScale(d[1]);
         })
-        .transition().call(endall, function() {console.log("done");chart.appendDatasets(data_array);})
+        .transition().call(endall, function() {d3.select(".appended_points").html(nn * 1000);chart.appendDatasets(data_array);})
         .duration(_options.timing)
         .delay(function (d,i) { return i / _data_length * _options.timing; })
         .attr("r", _options.circleRadius);
