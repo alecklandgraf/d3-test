@@ -130,8 +130,13 @@ $(document).ready(function () {
   append_dataset.shift();
 
 
-
-  myChart = new beChart('scatter', CURRENT_DATA_SET, '#chart', {timing: TRANSITOIN_SPEED, circleRadius: RADIUS, xMax: 50, yMax: 50});
+  var opts = {
+    timing: TRANSITOIN_SPEED,
+    circleRadius: RADIUS,
+    xMax: 50,
+    yMax: 50
+  };
+  myChart = new beChart('scatter', CURRENT_DATA_SET, '#chart',opts );
 
   $(".pick_data").change(function () {
     var selected_data = $(".pick_data").val();
