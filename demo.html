@@ -130,7 +130,6 @@ $(document).ready(function () {
     TRANSITOIN_SPEED *= 2;
     $(".transition_speed").html(TRANSITOIN_SPEED.toString());
     myChart.updateTransitionSpeed(TRANSITOIN_SPEED);
-    myChart.setData(CURRENT_DATA_SET);
   });
 
   $("#decrease_transition").live("click", function () {
@@ -138,7 +137,6 @@ $(document).ready(function () {
     TRANSITOIN_SPEED = Math.floor(TRANSITOIN_SPEED);
     $(".transition_speed").html(TRANSITOIN_SPEED.toString());
     myChart.updateTransitionSpeed(TRANSITOIN_SPEED);
-    myChart.setData(CURRENT_DATA_SET);
   });
   $("#increase_radius").live("click", function () {
     RADIUS += 1;
