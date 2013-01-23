@@ -15,6 +15,10 @@ usage : myChart = new beChart(plot_type, data, selector, options);
 //=============================================================================
 // private functions
 //-----------------------------------------------------------------------------
+registerKeyboardHandler = function(callback) {
+  d3.select(window).on("keydown", callback);
+};
+
 function svgEnabled() {
   var d = document;
   return (!!d.createElementNS &&
@@ -310,15 +314,26 @@ chart._drawSVG = function () {
 
   //Define Y axis
   _yAxis = d3.svg.axis()
-                    .scale(_yScale)
-                    .orient("left")
-                    .ticks(5);
+    .scale(_yScale)
+    .orient("left")
+    .ticks(5);
 
   //Create SVG element
   _svg = d3.select(_selector)
-              .append("svg")
-              .attr("width", w)
-              .attr("height", h);
+      .append("svg")
+      .attr("width", w)
+      .attr("height", h)
+      .attr("pointer-events", "all")
+    .append('svg:g')
+      .call(d3.behavior.zoom().on("zoom", chart.redraw))
+    .append('svg:g');
+
+  _svg.append("svg:rect")
+      .attr("width", w)
+      .attr("height", h)
+      .attr("fill", "white");
+
+
 
     //Create X axis
   _svg.append("g")
@@ -333,7 +348,10 @@ chart._drawSVG = function () {
       .call(_yAxis);
 };
 
-
+chart.redraw = function () {
+  _svg.attr("transform", 
+        "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
+};
 
 //=============================================================================
 // return beChart to the caller
