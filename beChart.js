@@ -327,7 +327,7 @@ chart._drawSVG = function () {
       .attr("height", h)
       .attr("pointer-events", "all")
     .append('svg:g')
-      .call(d3.behavior.zoom().x(_xScale).y(_yScale).on("zoom", chart.redraw))
+      // .call(d3.behavior.zoom().x(_xScale).y(_yScale).on("zoom", chart.redraw))
     .append('svg:g');
 
   _svg.append("svg:rect")
