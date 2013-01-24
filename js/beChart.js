@@ -200,13 +200,13 @@ chart.setData = function (data) {
 
 chart.setType = function (type) {
   // todo: add way to call custom user set type like xCharts
-  _data = data;
-  switch(_type) {
-    case "scatter":
-      BEModels.scatter.setData(_data, _svg);
-      break;
-    case "circle-histogram":
-      break;
+  if (BEModels.plot_types.indexOf(type) < 0) {
+    throw 'Plot type "' + type + '" does not exist.';
+  }
+  else {
+    var old_type = _type;
+    _type = type;
+    BEModels[type].setType(old_type);
   }
   
 }; // end setData

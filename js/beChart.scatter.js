@@ -1,4 +1,6 @@
 //beChart.scatter.js
+// todo get options into BEModels as BEModels.options and use instead of _options
+
 var BEModels = BEModels || {};
 BEModels.main = BEModels.main || {};
 BEModels.scatter = BEModels.scatter || {};
@@ -46,4 +48,8 @@ BEModels.scatter.setData = function (data, svg) {
 
     // exit remove data
     circle.exit().remove();
+};
+
+BEModels.scatter.setType = function (old_type) {
+  // awesome transition here
 };
