@@ -48,18 +48,20 @@ BEModels.circle_histogram.setType = function (old_type) {
         .attr("transform", function(d) { return "translate(" + BEModels.circle_histogram.xScale(d.x) + "," + (BEModels.height - BEModels.padding) + ")"; });
 
     var circle_radius_scale = d3.scale.sqrt()
-      .domain([0, d3.max(BEModels.circle_histogram.data, function (d) { return d; })])
+      .domain([0, d3.max(BEModels.circle_histogram.data, function (d) { return d.y; })])
       .range([0, 17]);
 
     BEModels.svg.selectAll("circle")
       .data(BEModels.circle_histogram.data)
       .transition()
-      .duration(1000)
-      .delay(2000)
+      .duration(500)
+      .delay(500)
         .attr("cx", 1)
         .attr("cy", 1)
-        .attr("r", function(d) { return circle_radius_scale(BEModels.height - BEModels.circle_histogram.yScale(d.y)); });
+        .attr("r", function(d) { return circle_radius_scale(d.y); });
 
+    circle = BEModels.svg.selectAll("circle")
+      .data(BEModels.circle_histogram.data);
     circle.exit().remove();
   }
 
