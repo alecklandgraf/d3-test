@@ -3,7 +3,7 @@ BE Chart
 copyright 2013 Building Energy
 
 usage : myChart = new beChart(plot_type, data, selector, options);
-  @param plot_type: string ['scatter', 'histogram', 'circle_histogram', 'line', 'dotted_line']
+  @param plot_type: string ['scatter', 'circle_histogram']
   @param data: object or array
   @param selector: d3 selector (css/jQuery)
   @param options: object (overrides defaults object)
@@ -187,7 +187,7 @@ chart.updateTransitionSpeed = function (timing) {
 
 chart.setData = function (data) {
   // todo: add way to call custom user set type like xCharts
-  _data = data;
+  _data = BEModels.data = data;
   BEModels[_type].setData(_data, _svg);
   
 };
@@ -288,6 +288,8 @@ chart._drawSVG = function () {
       padding = 30;
   var xMax = _options.xMax === undefined ? d3.max(_data, function(d) { return d[0]; }) : _options.xMax;
   var yMax = _options.yMax === undefined ? d3.max(_data, function(d) { return d[1]; }) : _options.yMax;
+  BEModels.width = w;
+  BEModels.height = h;
 
   //Create scale functions
   _xScale = d3.scale.linear()
@@ -325,6 +327,7 @@ chart._drawSVG = function () {
     .append('svg:g')
       // .call(d3.behavior.zoom().x(_xScale).y(_yScale).on("zoom", chart.redraw))
     .append('svg:g');
+  BEModels.svg = _svg;
 
   //Draw background and give area for mouse to zoom in and pan on
   _svg.append("svg:rect")
@@ -370,6 +373,10 @@ chart._drawSVG = function () {
   BEModels.scatter.yScale = _yScale;
   BEModels.scatter.data_length = _data_length;
   BEModels.scatter.options = _options;
+  BEModels.circle_histogram.xScale = _xScale;
+  BEModels.circle_histogram.yScale = _yScale;
+  BEModels.circle_histogram.data_length = _data_length;
+  BEModels.circle_histogram.options = _options;
 };
 
 chart.redraw = function () {
