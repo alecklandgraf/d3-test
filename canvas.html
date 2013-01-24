@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<head>
+  <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+</head>
+<style>
+ 
+body {
+  font: 10px sans-serif;
+  margin: 10px;
+}
+.data_info {
+  font-size: 16px;
+}
+ 
+.bar rect {
+  fill: steelblue;
+  shape-rendering: crispEdges;
+}
+
+circle {
+  fill: #89bbd8;
+  stroke: #FFF;
+  stroke-width: 0px;
+}
+
+.avg {
+  fill: orange;
+}
+ 
+.bar text {
+  fill: #000;
+}
+
+#chart {
+  width: 300px;
+  height: 500px;
+
+}
+.axis path, .axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+ 
+</style>
+<body>
+
+  <div>
+    <select class="pick_data">
+              <option value="100" selected>100 points</option>
+              <option value="500" >500 points</option>
+              <option value="1000" >1,000 points</option>
+              <option value="3000" >3,000 points</option>
+              <option value="5000" >5,000 points</option>
+              <option value="8000" >8,000 points</option>
+              <option value="10000" >10,000 points</option>
+              <option value="20000" >20,000 points</option>
+              <option value="30000" >30,000 points</option>
+              <option value="40000" >40,000 points</option>
+              <option value="50000" >50,000 points</option>
+              <option value="60000" >60,000 points</option>
+            </select>
+  </div>
+  <div class="compare_btn">
+    <button class="btn btn-primary" id="increase_transition">Increase transition</button>
+    <button class="btn btn-primary" id="decrease_transition">Decrease transition</button>
+    <button class="btn btn-primary" id="increase_radius">Increase radius</button>
+    <button class="btn btn-primary" id="decrease_radius">Decrease radius</button>
+    <button class="btn btn-success" id="append_data">Append Data Test</button>
+  </div>
+  <div class="data_info">
+    <div>Transition speed(ms): <span class="transition_speed">...</span></div>
+    <div>Circle radius: <span class="circle_radius">...</span></div>
+    <div>Appended points: <span class="appended_points">...</span></div>
+  </div>
+  <figure id="chart"></firgure>
+</body>
+<script src="js/jquery.min.js"></script>
+
+<script type="text/javascript" src="js/d3.v3/d3.v3.js"></script>
+<script type="text/javascript" src="beChart.js"></script>
+
+<script>
+$(document).ready(function () {
+  // global for debug
+  dataset = [];
+  CURRENT_DATA_SET = [];
+  TRANSITOIN_SPEED = 1;
+  RADIUS = 1;
+  $(".transition_speed").html(TRANSITOIN_SPEED.toString());
+  $(".circle_radius").html(RADIUS.toString());
+
+
+  function generate_data(number) {
+    var data = [];
+    random = d3.random.normal();
+    for (var i = 0; i < number ; i++) {
+      data.push([
+        (Math.abs(random()*10)), 
+        (Math.abs(random()*10))
+      ]);
+    }
+    return data;
+  }
+
+  // pre load datasets
+  dataset = {
+    100: generate_data(1),
+    500: generate_data(500),
+    1000: generate_data(1000),
+    3000: generate_data(3000),
+    5000: generate_data(5000),
+    8000: generate_data(8000),
+    10000: generate_data(10000),
+    15000: generate_data(15000),
+    20000: generate_data(20000),
+    30000: generate_data(30000),
+    40000: generate_data(40000),
+    50000: generate_data(50000),
+    60000: generate_data(60000)
+  };
+
+  CURRENT_DATA_SET = dataset[100];
+
+  append_dataset = [[]];
+  for (var j=0; j< 30; j++) {
+    append_dataset.push(generate_data(1000));
+  }
+  append_dataset.shift();
+
+
+  var opts = {
+    timing: TRANSITOIN_SPEED,
+    circleRadius: RADIUS,
+    xMax: 50,
+    yMax: 50
+  };
+  myChart = new beChart('scatter', CURRENT_DATA_SET, '#chart',opts );
+
+  $(".pick_data").change(function () {
+    var selected_data = $(".pick_data").val();
+    CURRENT_DATA_SET = dataset[parseInt(selected_data, 10)];
+    myChart.setData(CURRENT_DATA_SET);
+  });
+
+  $("#increase_transition").live("click", function () {
+    TRANSITOIN_SPEED *= 2;
+    if (TRANSITOIN_SPEED === 0) {
+      TRANSITOIN_SPEED = 1;
+    }
+    $(".transition_speed").html(TRANSITOIN_SPEED.toString());
+    myChart.updateTransitionSpeed(TRANSITOIN_SPEED);
+  });
+
+  $("#decrease_transition").live("click", function () {
+    TRANSITOIN_SPEED /= 2;
+    // TRANSITOIN_SPEED = Math.floor(TRANSITOIN_SPEED);
+    $(".transition_speed").html(TRANSITOIN_SPEED.toString());
+    myChart.updateTransitionSpeed(TRANSITOIN_SPEED);
+  });
+  $("#increase_radius").live("click", function () {
+    RADIUS += 1;
+    $(".circle_radius").html(RADIUS.toString());
+    myChart.updateRadius(RADIUS);
+  });
+
+  $("#decrease_radius").live("click", function () {
+    RADIUS -= 1;
+    if (RADIUS < 0) {
+      RADIUS = 0;
+    }
+    $(".circle_radius").html(RADIUS.toString());
+    myChart.updateRadius(RADIUS);
+  });
+
+  $("#append_data").live("click", function () {
+    $("#append_data").addClass("disabled");
+    myChart.appendDatasets(append_dataset, "avg");
+
+  });
+
+});
+</script>
