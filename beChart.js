@@ -342,6 +342,18 @@ chart._drawSVG = function () {
       .attr("transform", "translate(" + padding + "," + (h - padding - h / 3) + ")")
       .style("opacity", 0.1)
       .attr("fill", "green");
+  _svg.append("rect")
+      .attr("width", w - padding * 3)
+      .attr("height", h / 3)
+      .attr("transform", "translate(" + padding + "," + (h - padding - (h / 3)*2) + ")")
+      .style("opacity", 0.1)
+      .attr("fill", "yellow");
+  _svg.append("rect")
+      .attr("width", w - padding * 3)
+      .attr("height", h / 3)
+      .attr("transform", "translate(" + padding + "," + (h - padding - (h / 3)*3) + ")")
+      .style("opacity", 0.1)
+      .attr("fill", "red");
 
 
 
