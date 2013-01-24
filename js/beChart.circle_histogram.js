@@ -41,6 +41,7 @@ BEModels.circle_histogram.setType = function (old_type) {
       .value(function (d) { return d[1]; })
       .bins(BEModels.circle_histogram.xScale.ticks(15))
       (BEModels.data);
+      
     var bar = BEModels.svg.selectAll(".bar")
         .data(BEModels.circle_histogram.data)
       .enter().append("g")
@@ -51,8 +52,7 @@ BEModels.circle_histogram.setType = function (old_type) {
       .domain([0, d3.max(BEModels.circle_histogram.data, function (d) { return d.y; })])
       .range([0, 17]);
 
-    BEModels.svg.selectAll("circle")
-      .data(BEModels.circle_histogram.data)
+    bar.append("circle")
       .transition()
       .duration(500)
       .delay(500)
