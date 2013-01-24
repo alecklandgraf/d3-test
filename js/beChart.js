@@ -3,7 +3,7 @@ BE Chart
 copyright 2013 Building Energy
 
 usage : myChart = new beChart(plot_type, data, selector, options);
-  @param plot_type: string ['scatter', 'histogram', 'circle-histogram', 'line', 'dotted-line']
+  @param plot_type: string ['scatter', 'histogram', 'circle_histogram', 'line', 'dotted_line']
   @param data: object or array
   @param selector: d3 selector (css/jQuery)
   @param options: object (overrides defaults object)
