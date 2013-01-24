@@ -8,6 +8,10 @@ usage : myChart = new beChart(plot_type, data, selector, options);
   @param selector: d3 selector (css/jQuery)
   @param options: object (overrides defaults object)
 
+future layout: all plots in their own js file, with common methods. Might make a plot prototype
+               to inherit from and overload. drawAxes, drawBackground, drawAxisLabels, drawLegend,
+               setData, appendData, resize, transition
+
 */
 var BEModels = BEModels || {};
 BEModels.main = BEModels.main  || {};
