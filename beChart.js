@@ -52,6 +52,7 @@ var chart = {},  // object to tie funcs onto
 var _version = "0.1.0",
     _authors = ["Aleck Landgraf"],
     _selector,
+    _container,
     _data_length,
     _options = {},
     _datasets = {},
@@ -133,13 +134,14 @@ var beChart = function (type, data, selector, options) {
 
   // set globals
   _selector = selector;
+  _container = d3.select(selector);
   _data_length = data.length;
   _data = data;
 
 
   // set public objects and functions
   self.version = _version;
-  self._container = d3.select(selector);
+  self._container = _container;
   self._data = _data; // convience for those who need it
   self.setData = chart.setData;
   self.updateTransitionSpeed = chart.updateTransitionSpeed;
@@ -285,9 +287,9 @@ chart.updateRadius = function (r) {
 //-----------------------------------------------------------------------------
 chart._drawSVG = function () {
   // need to grab these from element
-  var w = 800;
-  var h = 800;
-  var padding = 30;
+  var w = parseInt(_container.style('width').replace('px', ''), 10),
+      h = parseInt(_container.style('height').replace('px', ''), 10),
+      padding = 30;
   var xMax = _options.xMax === undefined ? d3.max(_data, function(d) { return d[0]; }) : _options.xMax;
   var yMax = _options.yMax === undefined ? d3.max(_data, function(d) { return d[1]; }) : _options.yMax;
 
@@ -349,7 +351,7 @@ chart._drawSVG = function () {
 };
 
 chart.redraw = function () {
-  _svg.attr("transform", 
+  _svg.attr("transform",
         "translate(" + d3.event.translate + ")" + " scale(" + d3.event.scale + ")");
 };
 
