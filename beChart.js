@@ -43,6 +43,7 @@ function endall(transition, callback) {
 // private global vars (private to BE Chart, global to functions whithin)
 //-----------------------------------------------------------------------------
 var chart = {},  // object to tie funcs onto
+    _type,
     _xAxis,
     _yAxis,
     _xScale,
@@ -137,10 +138,12 @@ var beChart = function (type, data, selector, options) {
   _container = d3.select(selector);
   _data_length = data.length;
   _data = data;
+  _type = type;
 
 
   // set public objects and functions
   self.version = _version;
+  self._type = _type;
   self._container = _container;
   self._data = _data; // convience for those who need it
   self.setData = chart.setData;
@@ -241,6 +244,10 @@ chart.appendData = function (data, data_class) {
 nn=0;
 // end debug
 
+// this should be refactored into a private function and the binning of data into
+// a couple datasets should become a feature that is called if a large data option
+// is set. If set, a threshold of the data length would determine if the data
+// requires this function.
 chart.appendDatasets = function (data_array) {
   if(data_array.length > 0) {
     nn += 1;
@@ -256,7 +263,10 @@ chart.appendDatasets = function (data_array) {
         .attr("cy", function(d) {
             return _yScale(d[1]);
         })
-        .transition().call(endall, function() {d3.select(".appended_points").html(nn * 1000);chart.appendDatasets(data_array);})
+        .transition().call(endall, function() {
+          d3.select(".appended_points").html(nn * 1000);
+          chart.appendDatasets(data_array);
+        })
         .duration(_options.timing)
         .delay(function (d,i) { return i / _data_length * _options.timing; })
         .attr("r", _options.circleRadius);
