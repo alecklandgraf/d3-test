@@ -9,6 +9,9 @@ usage : myChart = new beChart(plot_type, data, selector, options);
   @param options: object (overrides defaults object)
 
 */
+var BEModels = BEModels || {};
+BEModels.main = BEModels.main  || {};
+
 (function () {
 // skip to beChart for the good parts
 
@@ -177,45 +180,16 @@ chart.updateTransitionSpeed = function (timing) {
 };
 
 chart.setData = function (data) {
-
+  // todo: add way to call custom user set type like xCharts
   _data = data;
-
-  // bind circle to data
-  var circle = _svg.selectAll("circle")
-     .data(data, String);
-
-  // enter new circles
-  circle.enter().append("circle")
-     .style('opacity', 0.8)
-     .attr("cx", function(d) {
-          return _xScale(d[0]);
-     })
-     .attr("cy", function(d) {
-          return _yScale(d[1]);
-     })
-     .transition()
-     .duration(_options.timing)
-     .delay(function (d,i) { return i / _data_length * _options.timing; })
-     .attr("r", function(d) {
-          return _options.circleRadius;
-          // return rScale(d[1]);
-     });
-
-  // update current circles
-  circle
-    .attr("cx", function(d) {
-          return _xScale(d[0]);
-     })
-    .attr("cy", function(d) {
-          return _yScale(d[1]);
-     })
-    .transition()
-    .duration(_options.timing)
-    .delay(function (d,i) { return i / _data_length * _options.timing; })
-    .attr("r", _options.circleRadius);
-
-    // exit remove data
-    circle.exit().remove();
+  switch(_type) {
+    case "scatter":
+      BEModels.scatter.setData(_data, _svg);
+      break;
+    case "circle-histogram":
+      break;
+  }
+  
 }; // end setData
 
 
@@ -378,6 +352,12 @@ chart._drawSVG = function () {
       .attr("class", "axis")
       .attr("transform", "translate(" + padding + ",0)")
       .call(_yAxis);
+
+  // total hack for proof of concept of scatter lib
+  BEModels.scatter.xScale = _xScale;
+  BEModels.scatter.yScale = _yScale;
+  BEModels.scatter.data_length = _data_length;
+  BEModels.scatter.options = _options;
 };
 
 chart.redraw = function () {
