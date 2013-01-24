@@ -15,7 +15,7 @@ future layout: all plots in their own js file, with common methods. Might make a
 */
 var BEModels = BEModels || {};
 BEModels.main = BEModels.main  || {};
-BEModels.plot_types = [];
+BEModels.plot_types = BEModels.plot_types || [];
 
 (function () {
 // skip to beChart for the good parts
