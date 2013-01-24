@@ -377,6 +377,7 @@ chart._drawSVG = function () {
   BEModels.circle_histogram.yScale = _yScale;
   BEModels.circle_histogram.data_length = _data_length;
   BEModels.circle_histogram.options = _options;
+  BEModels.padding = padding;
 };
 
 chart.redraw = function () {

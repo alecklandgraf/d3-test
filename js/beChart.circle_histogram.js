@@ -23,22 +23,44 @@ BEModels.circle_histogram.setType = function (old_type) {
     var circle = BEModels.svg.selectAll("circle")
       .data(BEModels.data, String);
     // update current circles
-  circle
-    .transition()
-    .duration(BEModels.scatter.options.timing)
-    .delay(function (d,i) { return i / BEModels.scatter.data_length * BEModels.scatter.options.timing; })
-    .attr("cx", function(d) {
-          return BEModels.scatter.xScale(d[1]);
-     })
-    .attr("cy", function(d) {
-          return BEModels.scatter.yScale(5);
-     })
-    .attr("r", BEModels.scatter.options.circleRadius);
+    circle
+      .transition()
+      .duration(BEModels.scatter.options.timing)
+      .delay(function (d,i) { return i / BEModels.scatter.data_length * BEModels.scatter.options.timing; })
+      .attr("cx", function(d) {
+            return BEModels.scatter.xScale(d[1]);
+       })
+      .attr("cy", function(d) {
+            return BEModels.scatter.yScale(5);
+       })
+      .attr("r", BEModels.scatter.options.circleRadius);
+  
+
+
+    BEModels.circle_histogram.data = d3.layout.histogram()
+      .value(function (d) { return d[1]; })
+      .bins(BEModels.circle_histogram.xScale.ticks(15))
+      (BEModels.data);
+    var bar = BEModels.svg.selectAll(".bar")
+        .data(BEModels.circle_histogram.data)
+      .enter().append("g")
+        .attr("class", "bar")
+        .attr("transform", function(d) { return "translate(" + BEModels.circle_histogram.xScale(d.x) + "," + (BEModels.height - BEModels.padding) + ")"; });
+
+    var circle_radius_scale = d3.scale.sqrt()
+      .domain([0, d3.max(BEModels.circle_histogram.data, function (d) { return d; })])
+      .range([0, 17]);
+
+    BEModels.svg.selectAll("circle")
+      .data(BEModels.circle_histogram.data)
+      .transition()
+      .duration(1000)
+      .delay(2000)
+        .attr("cx", 1)
+        .attr("cy", 1)
+        .attr("r", function(d) { return circle_radius_scale(BEModels.height - BEModels.circle_histogram.yScale(d.y)); });
+
+    circle.exit().remove();
   }
 
-
-  BEModels.circle_histogram.data = d3.layout.histogram()
-    .value(function (d) { return d[1]; })
-    .bins(BEModels.circle_histogram.xScale.ticks(15))
-    (BEModels.data);
 };
