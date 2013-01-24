@@ -15,6 +15,7 @@ future layout: all plots in their own js file, with common methods. Might make a
 */
 var BEModels = BEModels || {};
 BEModels.main = BEModels.main  || {};
+BEModels.plot_types = [];
 
 (function () {
 // skip to beChart for the good parts
@@ -158,6 +159,7 @@ var beChart = function (type, data, selector, options) {
   self.updateRadius = chart.updateRadius;
   self.appendData = chart.appendData;
   self.appendDatasets = chart.appendDatasets;
+  self.setType = chart.setType;
 
   // intial plot
   chart._drawSVG(data);
@@ -196,6 +198,18 @@ chart.setData = function (data) {
   
 }; // end setData
 
+chart.setType = function (type) {
+  // todo: add way to call custom user set type like xCharts
+  _data = data;
+  switch(_type) {
+    case "scatter":
+      BEModels.scatter.setData(_data, _svg);
+      break;
+    case "circle-histogram":
+      break;
+  }
+  
+}; // end setData
 
 chart.appendData = function (data, data_class) {
   // data_class = data_class === undefined ? 'main' : data_class;

@@ -3,6 +3,12 @@ var BEModels = BEModels || {};
 BEModels.main = BEModels.main || {};
 BEModels.scatter = BEModels.scatter || {};
 
+// register scatter as plot type
+BEModels.plot_type = BEModels.plot_type || [];
+if (BEModels.plot_type.indexOf('scatter') < 0) {
+  BEModels.plot_type.push('scatter');
+}
+
 BEModels.scatter.setData = function (data, svg) {
   // bind circle to data
   var circle = svg.selectAll("circle")
