@@ -188,13 +188,7 @@ chart.updateTransitionSpeed = function (timing) {
 chart.setData = function (data) {
   // todo: add way to call custom user set type like xCharts
   _data = data;
-  switch(_type) {
-    case "scatter":
-      BEModels.scatter.setData(_data, _svg);
-      break;
-    case "circle-histogram":
-      break;
-  }
+  BEModels[_type].setData(_data, _svg);
   
 }; // end setData
 
