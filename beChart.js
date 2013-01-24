@@ -330,10 +330,18 @@ chart._drawSVG = function () {
       // .call(d3.behavior.zoom().x(_xScale).y(_yScale).on("zoom", chart.redraw))
     .append('svg:g');
 
+  //Draw background and give area for mouse to zoom in and pan on
   _svg.append("svg:rect")
       .attr("width", w)
       .attr("height", h)
       .attr("fill", "white");
+
+  _svg.append("rect")
+      .attr("width", w - padding * 3)
+      .attr("height", h / 3)
+      .attr("transform", "translate(" + padding + "," + (h - padding - h / 3) + ")")
+      .style("opacity", 0.1)
+      .attr("fill", "green");
 
 
 
