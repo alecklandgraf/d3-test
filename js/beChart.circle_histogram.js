@@ -33,7 +33,6 @@ BEModels.circle_histogram.setType = function (old_type) {
     .attr("cy", function(d) {
           return BEModels.scatter.yScale(5);
      })
-    
     .attr("r", BEModels.scatter.options.circleRadius);
   }
 
