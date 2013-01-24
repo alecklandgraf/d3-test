@@ -9,7 +9,7 @@ BEModels.circle_histogram = BEModels.circle_histogram || {};
 
 
 // register circle-histogram as plot type
-BEModels.plot_types = BEModels.plot_type || [];
+BEModels.plot_types = BEModels.plot_types || [];
 if (BEModels.plot_types.indexOf('circle_histogram') < 0) {
   BEModels.plot_types.push('circle_histogram');
 }
