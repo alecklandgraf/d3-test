@@ -36,12 +36,19 @@ BEModels.circle_histogram.setType = function (old_type) {
       .attr("r", BEModels.scatter.options.circleRadius);
   
 
-
+    // circle = BEModels.svg.selectAll("circle")
+    //   .data(BEModels.circle_histogram.data);
+    // circle.exit()
+    // .transition()
+    //   .duration(1000)
+    //   .delay(1000)
+    // .remove();
+    
     BEModels.circle_histogram.data = d3.layout.histogram()
       .value(function (d) { return d[1]; })
       .bins(BEModels.circle_histogram.xScale.ticks(15))
       (BEModels.data);
-      
+
     var bar = BEModels.svg.selectAll(".bar")
         .data(BEModels.circle_histogram.data)
       .enter().append("g")
@@ -60,9 +67,8 @@ BEModels.circle_histogram.setType = function (old_type) {
         .attr("cy", 1)
         .attr("r", function(d) { return circle_radius_scale(d.y); });
 
-    circle = BEModels.svg.selectAll("circle")
-      .data(BEModels.circle_histogram.data);
-    circle.exit().remove();
+
+    
   }
 
 };
