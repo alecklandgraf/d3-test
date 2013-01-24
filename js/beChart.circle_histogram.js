@@ -21,7 +21,7 @@ BEModels.circle_histogram.setType = function (old_type) {
 
   if (old_type === 'scatter') {
     var circle = BEModels.svg.selectAll("circle")
-      .data(data, String);
+      .data(BEModels.data, String);
     // update current circles
   circle
     .transition()
