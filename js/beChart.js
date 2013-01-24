@@ -190,7 +190,7 @@ chart.setData = function (data) {
   _data = data;
   BEModels[_type].setData(_data, _svg);
   
-}; // end setData
+};
 
 chart.setType = function (type) {
   // todo: add way to call custom user set type like xCharts
@@ -203,7 +203,7 @@ chart.setType = function (type) {
     BEModels[type].setType(old_type);
   }
   
-}; // end setData
+};
 
 chart.appendData = function (data, data_class) {
   // data_class = data_class === undefined ? 'main' : data_class;
