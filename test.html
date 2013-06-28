@@ -77,9 +77,8 @@ var opts = {
     $(tt).hide();
   }
 };
-var data2 = data.slice(0);
 var myChart1 = new xChart('line-dotted', data, '#example1', opts);
-var myChart2 = new xChart('line-dotted', data2, '#example2', opts);
+var myChart2 = new xChart('line-dotted', data, '#example2', opts);
 
       $(".toggle").click(function () {
             if (myChart1._type === 'scatter-1D') {
