@@ -63,6 +63,45 @@ data = {
     }
   ]
 };
+data2 = {
+  "xScale": "time",
+  "yScale": "linear",
+  "main": [
+    {
+      "className": ".hotdogs",
+      "data": [
+        {
+          "x": "2012-11-05",
+          "y": 6
+        },
+        {
+          "x": "2012-11-06",
+          "y": 6
+        },
+        {
+          "x": "2012-11-07",
+          "y": 8
+        },
+        {
+          "x": "2012-11-08",
+          "y": 3
+        },
+        {
+          "x": "2012-11-09",
+          "y": 4
+        },
+        {
+          "x": "2012-11-10",
+          "y": 9
+        },
+        {
+          "x": "2012-11-11",
+          "y": 6
+        }
+      ]
+    }
+  ]
+};
 var opts = {
   "dataFormatX": function (x) { return d3.time.format('%Y-%m-%d').parse(x); },
   "tickFormatX": function (x) { return d3.time.format('%A')(x); },
@@ -78,7 +117,7 @@ var opts = {
   }
 };
 var myChart1 = new xChart('line-dotted', data, '#example1', opts);
-var myChart2 = new xChart('line-dotted', data, '#example2', opts);
+var myChart2 = new xChart('line-dotted', data2, '#example2', opts);
 
       $(".toggle").click(function () {
             if (myChart1._type === 'scatter-1D') {
