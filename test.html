@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+    <title>d3 test</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/xcharts.css"/>
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/master.css"/>
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+    <script type="text/javascript" src="js/d3.v2.js"></script>
+    <script type="text/javascript" src="js/xcharts.js"></script>
+    <script type="text/javascript" src="js/scatter.js"></script>
+    
+    <script>
+    var data = {};
+    var tease_date = new Date("November 13, 2012 03:15:00");
+    $(document).ready(function () {
+      
+      var tt = document.createElement('div'),
+  leftOffset = -(~~$('html').css('padding-left').replace('px', '') + ~~$('body').css('margin-left').replace('px', '')),
+  topOffset = -32;
+tt.className = 'ex-tooltip';
+document.body.appendChild(tt);
+
+data = {
+  "xScale": "time",
+  "yScale": "linear",
+  "main": [
+    {
+      "className": ".pizza",
+      "data": [
+        {
+          "x": "2012-11-05",
+          "y": 6
+        },
+        {
+          "x": "2012-11-06",
+          "y": 6
+        },
+        {
+          "x": "2012-11-07",
+          "y": 8
+        },
+        {
+          "x": "2012-11-08",
+          "y": 3
+        },
+        {
+          "x": "2012-11-09",
+          "y": 4
+        },
+        {
+          "x": "2012-11-10",
+          "y": 9
+        },
+        {
+          "x": "2012-11-11",
+          "y": 6
+        }
+      ]
+    }
+  ]
+};
+var opts = {
+  "dataFormatX": function (x) { return d3.time.format('%Y-%m-%d').parse(x); },
+  "tickFormatX": function (x) { return d3.time.format('%A')(x); },
+  "paddingTop": 30,
+  "mouseover": function (d, i) {
+    var pos = $(this).offset();
+    $(tt).text(d3.time.format('%A')(d.x) + ': ' + d.y)
+      .css({top: topOffset + pos.top, left: pos.left + leftOffset})
+      .show();
+  },
+  "mouseout": function (x) {
+    $(tt).hide();
+  }
+};
+var data2 = data.slice(0);
+var myChart1 = new xChart('line-dotted', data, '#example1', opts);
+var myChart2 = new xChart('line-dotted', data2, '#example2', opts);
+
+      $(".toggle").click(function () {
+            if (myChart1._type === 'scatter-1D') {
+              myChart1.setType('scatter-2D');
+            }
+            else {
+              myChart1.setType('scatter-1D');
+            }
+        });
+
+      $("#add-your-data").live("click", function () {
+            tease_date.setDate(tease_date.getDate() + 1);
+            $(".date_input_container span").html("date time (" + tease_date.getFullYear() + "-" + (tease_date.getMonth()+1) + "-" + (tease_date.getDate()) + ")");
+            var datetime = $(".date_input").val();
+            var value = $(".value_input").val();
+            var new_data = {
+                      "x": datetime.toString(),
+                      "y": parseFloat(value),
+                };
+            data.main[0].data.push(new_data);
+            myChart1.setData(data);
+          });
+
+      $("#reset-your-data").live("click", function () {
+            data = {
+              "xScale": "time",
+              "yScale": "linear",
+              "type": "line-dotted",
+              "main": [
+                {
+                  "className": ".pizza",
+                  "data": [
+                    {
+                      "x": "2012-11-05",
+                      "y": 6
+                    },
+                    {
+                      "x": "2012-11-06",
+                      "y": 6
+                    },
+                    {
+                      "x": "2012-11-07",
+                      "y": 8
+                    },
+                    {
+                      "x": "2012-11-08",
+                      "y": 3
+                    },
+                    {
+                      "x": "2012-11-09",
+                      "y": 4
+                    },
+                    {
+                      "x": "2012-11-10",
+                      "y": 9
+                    },
+                    {
+                      "x": "2012-11-11",
+                      "y": 6
+                    }
+                  ]
+                }
+              ]
+            };
+            myChart1.setData(data);
+          });
+
+          $("#toggle-your-data").live("click", function () {
+            if (myChart1._type === "line-dotted") {
+              data.type = "bar";
+              data.xScale = "ordinal";
+            }
+            else {
+              data.type = "line-dotted";
+              data.xScale = "time";
+            }
+            
+            myChart1.setData(data);
+          });
+
+    }); // end doc ready
+</script>
+  </head>
+  <body>
+    <div id="chart">
+      <!-- <a class="btn btn-primary widget-edit toggle" href="#"><i class="icon-wrench icon-white"></i> Toggle</a> --> 
+      <div></div>
+      <figure style="width: 80%; height: 300px;" id="example1"></figure>
+      <div class="date_input_container">
+          <input type="text"  class="date_input" placeholder="2012-11-13"> 
+          <span>date time (2012-11-13)</span>
+        </div>
+        <div lass="value_input_container">
+            <input type="text"  class="value_input" placeholder="11">  
+            <span>value (11)</span>
+        </div>
+        <div class="compare_btn">
+             <button class="btn btn-warning" id="add-your-data">Add data</button>
+
+             <button class="btn btn-warning" id="reset-your-data">reset</button>
+
+             <button class="btn btn-warning" id="toggle-your-data">toggle</button>
+        </div>
+        <figure style="width: 80%; height: 300px;" id="example2"></figure>
+
+
+    </div>
+  </body>
+</html>
